@@ -1,0 +1,18 @@
+\name{MNITalairach}
+\alias{MNITalairach}
+\title{How to convert MNI coordinates to Talairach coordinates.}
+\description{
+To get from McGill [MNI]-SPM96-coordinates to Talairach 88-SPM 95 coordinates:
+X' = 0.88X-0.8
+Y' = 0.97Y-3.32
+Z' = 0.05Y+0.88Z-0.44
+}
+\references{
+\url{http://imaging.mrc-cbu.cam.ac.uk/imaging/MniTalairach}
+}
+\examples{
+MNI <- c(10,10,10,1);
+M <- t(matrix(nrow=4,ncol=4,c(0.88, 0, 0, -0.8,0, 0.97, 0, -3.32, 0, 0.05, 0.88, -0.44,0, 0, 0, 1)));
+Talairach <- M %*% MNI;
+print(Talairach);
+}

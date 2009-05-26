@@ -1,0 +1,2 @@
+PKG_CPPFLAGS=-g -O2  -I/gtk/include -DHAVE_ZLIB
+PKG_LIBS=  /gtk/bin/zlib1.dll
