@@ -1,11 +1,11 @@
 \name{MNITalairach}
 \alias{MNITalairach}
-\title{How to convert MNI coordinates to Talairach coordinates.}
+\title{Convert MNI coordinates to Talairach coordinates.}
 \description{
 To get from McGill [MNI]-SPM96-coordinates to Talairach 88-SPM 95 coordinates:
-X' = 0.88X-0.8
-Y' = 0.97Y-3.32
-Z' = 0.05Y+0.88Z-0.44
+X' = 0.88*X - 0.8
+Y' = 0.97*Y - 3.32
+Z' = 0.05*Y + 0.88*Z - 0.44
 }
 \references{
 \url{http://imaging.mrc-cbu.cam.ac.uk/imaging/MniTalairach}

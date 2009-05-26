@@ -551,7 +551,7 @@ SEXP Rnifti_image_read(SEXP file, SEXP read_data)
     if(length(read_data) != 1)
         error("Rnifti_image_read: read_data is not a single integer\n");
    	int *piread_data = INTEGER_POINTER(read_data);
-   	char *pcfilename  = CHAR(STRING_ELT(file , 0));
+   	const char *pcfilename  = CHAR(STRING_ELT(file , 0));
    	pnim = nifti_image_read( pcfilename , piread_data[0] ) ;
     if(pnim==NULL)
     {

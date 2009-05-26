@@ -8,7 +8,7 @@
 nifti_image_read(file, read_data=1) 
 }
 \arguments{
-  \item{file}{the name of the analyse file}
+  \item{file}{the name of the nifti file}
   \item{read_data}{0=do not read data, 1=read data}
 }
 \details{

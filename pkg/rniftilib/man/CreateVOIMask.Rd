@@ -9,7 +9,7 @@ CreateVOIMask(templatefile=file.choose(),output_basefilename,MNI,radius);
 }
 \arguments{
  \item{templatefile}{file name of image volume used as template}
- \item{output_basefilename}{base filename for mask image volume}
+ \item{output_basefilename}{base file name for mask image volume}
  \item{MNI}{centre coordinate vector in MNI space (mm)}
  \item{radius}{radius of VOI}
 }
@@ -18,7 +18,7 @@ CreateVOIMask(templatefile=file.choose(),output_basefilename,MNI,radius);
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert<at>neurologie.uni-kiel.de>
 }
 
 \seealso{ 
