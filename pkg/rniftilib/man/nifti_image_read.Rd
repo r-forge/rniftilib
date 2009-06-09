@@ -29,9 +29,8 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \examples{
-library(Rniftilib)
+\dontrun{
 nifti_img=nifti_image_read(file.choose())
-
 # access to attributes...
 nifti_img$qto_xyz #
 nifti_img$qto_ijk # hold voxel to mm transformation (?)
@@ -42,5 +41,6 @@ nifti_img$descrip # hold description
 nifti_img$fname # header filename (store image information)
 nifti_img$iname # image filename (store image data)
 nifti_img$slice_duration #
+}
 }
 \keyword{interface}

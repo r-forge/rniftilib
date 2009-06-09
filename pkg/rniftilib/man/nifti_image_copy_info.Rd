@@ -2,7 +2,7 @@
 \alias{nifti_image_copy_info}
 \title{Copy NIFTI image (info) without voxel data.}
 \description{
-Copy the nifti_image structure, without data.
+Copy the nifti.image structure, without data.
 
 Duplicate the structure, including fname, iname and extensions.
 Leave the data pointer as NULL.
@@ -16,7 +16,6 @@ nifti_image_copy_info(nim)
 \details{
 }
 \value{
-
 }
 \references{
 \url{http://nifti.nimh.nih.gov}
@@ -31,8 +30,10 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \examples{
-library(Rniftilib);
-nifti_img1=nifti_image_read(file.choose());
-nifti_img2=nifti_image_copy_info(nifti_img1);
+\dontrun{
+library(Rniftilib)
+nifti_img1=nifti_image_read(file.choose())
+nifti_img2=nifti_image_copy_info(nifti_img1)
+}
 }
 \keyword{nifti_imgage_new}

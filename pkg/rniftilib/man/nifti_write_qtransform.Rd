@@ -14,7 +14,6 @@
 \details{
 }
 \value{
-
 }
 \references{
 \url{http://nifti.nimh.nih.gov}
@@ -25,11 +24,11 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \seealso{ 
-\code{\link{nifti_image_write}}
+  \code{\link{nifti_image_write}}
 }
 
 \examples{
-library(Rniftilib)
+\dontrun{
 nifti_img=nifti_image_read(file.choose())
 nifti_image_setdatatype(nifti_img,4)
 #nifti_img$quatern_b=0
@@ -96,8 +95,7 @@ img_z_center=img_z_range/2
 T=matrix(nrow=4,ncol=4,c(1,0,0,0, 0,1,0,0, 0,0,1,0, img_x_center-x_center,img_y_center-y_center,img_z_center-z_center,1))
 
 
-if(nifti_img$qform_code=="NIFTI_XFORM_SCANNER_ANAT")
-{
+if (nifti_img$qform_code=="NIFTI_XFORM_SCANNER_ANAT") {
   filename=file.choose()
   write(t(T%*%nifti_img$qto_xyz%*%ijk_to_xyz_inv),file=filename,ncolumns = 4);
   write(c(x_range,y_range,z_range,x_center,y_center,z_center),file=paste(filename,".par",sep=""),ncolumns = 4);
@@ -123,7 +121,6 @@ points(t(edges1[c(2,3),]),col=1)
 points(t(edges2[c(2,3),]),col=2)
 points(t(edges3[c(2,3),]),col=3)
 points(t(edges4[c(2,3),]),col=4)
-
-
+}
 }
 \keyword{interface}

@@ -5,7 +5,7 @@
   Create a mask in an image volume (NIFTI-file). 
 }
 \usage{
-CreateVOIMask(templatefile=file.choose(),output_basefilename,MNI,radius);
+CreateVOIMask(templatefile=file.choose(), output_basefilename, MNI, radius)
 }
 \arguments{
  \item{templatefile}{file name of image volume used as template}
@@ -20,12 +20,14 @@ CreateVOIMask(templatefile=file.choose(),output_basefilename,MNI,radius);
 \author{
 Oliver Granert <o.granert<at>neurologie.uni-kiel.de>
 }
-
 \seealso{ 
-\code{\link{nifti_image_read} \link{nifti_image_write}  \link{nifti_image_new}}
+  \code{\link{nifti_image_read}},
+  \code{\link{nifti_image_write}},
+  \code{\link{nifti_image_new}}
 }
 \examples{
- library(Rniftilib);
- # create mask at MNI coordinate [-22 33 44] and radius 2
- CreateVOIMask(templatefile=file.choose(),output_basefilename="C:\\\\maskimg_-22_33_44",c(-22,33,44),2);
+\dontrun{
+ ## create mask at MNI coordinate [-22 33 44] and radius 2
+ CreateVOIMask(templatefile=file.choose(),output_basefilename="C:\\\\maskimg_-22_33_44",c(-22,33,44),2)
+}
 }

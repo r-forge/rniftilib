@@ -24,7 +24,7 @@
   \item{qoffset_z}{}
   \item{qfac}{}
   \item{pixdim}{Grid spacings.}
-  \item{nifti_type}{NIFTI_FTYPE_ANALYZE (0), NIFTI_FTYPE_NIFTI1_1 (1), NIFTI_FTYPE_NIFTI1_2  (2), NIFTI_FTYPE_ASCII (3)}
+  \item{nifti_type}{NIFTI\_FTYPE\_ANALYZE (0), NIFTI\_FTYPE\_NIFTI1\_1 (1), NIFTI\_FTYPE\_NIFTI1\_2  (2), NIFTI\_FTYPE\_ASCII (3)}
   \item{sizeof_hdr}{MUST be 348}
   \item{datatype}{Defines data type!}
   \item{scl_slope}{nifti1: Data scaling: slope.  analyze 7.5: float funused1}

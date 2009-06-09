@@ -1,6 +1,6 @@
 \name{nifti_interpolate3d}
 \alias{nifti_interpolate3d}
-\title{nifti_interpolate3d}
+\title{nifti.interpolate3d}
 \description{
   This function interpolates in 3d (in volume data).
 }
@@ -17,7 +17,6 @@ nifti_interpolate3d(nim, x, y, z, t=1)
 \details{
 }
 \value{
-
 }
 \references{
 \url{http://nifti.nimh.nih.gov}
@@ -28,18 +27,20 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \seealso{
-\code{\link{nifti_image_read} \link{nifti_image_write} \link{nifti_image_new}}
+  \code{\link{nifti_image_read}},
+  \code{\link{nifti_image_write}},
+  \code{\link{nifti_image_new}}
 }
 
 \examples{
-library(Rniftilib);
-nifti_img=nifti_image_read(file.choose());
-
+\dontrun{
+nifti_img <- nifti_image_read(file.choose())
 plot(c(nifti_interpolate3d(nifti_img,100,100,3),
        nifti_interpolate3d(nifti_img,100.25,100,3),
        nifti_interpolate3d(nifti_img,100.5,100,3),
        nifti_interpolate3d(nifti_img,100.75,100,3),
        nifti_interpolate3d(nifti_img,101,100,3)),
-       xlab="position x",ylab="interpolation")
+       xlab="position x", ylab="interpolation")
 }
-\keyword{nifti_interpolate3d}
+}
+\keyword{}

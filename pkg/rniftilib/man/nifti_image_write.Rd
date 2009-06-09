@@ -28,8 +28,9 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \examples{
-library(Rniftilib);
-nifti_img=nifti_image_read(file.choose());
-nifti_image_write(nifti_img);
+\dontrun{
+nifti_img=nifti_image_read(file.choose())
+nifti_image_write(nifti_img)
+}
 }
 \keyword{interface}

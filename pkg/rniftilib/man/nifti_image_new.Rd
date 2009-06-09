@@ -2,7 +2,7 @@
 \alias{nifti_image_new}
 \title{Create new NIFTI image}
 \description{
-Basic initialization of a nifti_image structure (to a 1x1x1 image)
+Basic initialization of a nifti.image structure (to a 1x1x1 image)
 }
 \usage{
 nifti_image_new() 
@@ -27,7 +27,6 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 }
 
 \examples{
-library(Rniftilib)
 nifti_img=nifti_image_new()
 }
 \keyword{nifti_imgage_new}

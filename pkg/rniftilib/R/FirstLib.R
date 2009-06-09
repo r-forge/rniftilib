@@ -1,156 +1,159 @@
 ## FirstLib: initialization of Rniftilib
 .First.lib <- function(lib, pkg) 
 { 
-	#print(lib);
-	library.dynam("Rniftilib", pkg, lib); 
-  	.Call("Rnifti_init", lib, PACKAGE="Rniftilib");
+  #print(lib)
+  library.dynam("Rniftilib", pkg, lib) 
+  .Call("Rnifti_init", lib, PACKAGE="Rniftilib")
 }
 
 ## LastLib: cleanup of GTKTest
 .Last.lib <- function(libpath) 
 { 
-	library.dynam.unload("Rniftilib", libpath) 
+  library.dynam.unload("Rniftilib", libpath) 
 }
 
 nifti_image_read <- function(file, read_data=1) 
 {
-	.Call("Rnifti_image_read", file, read_data); 
+  .Call("Rnifti_image_read", file, read_data, PACKAGE="Rniftilib") 
 }
 
 nifti_image_new <- function()
 {
-	.Call("Rnifti_image_new"); 
+  .Call("Rnifti_image_new", PACKAGE="Rniftilib") 
 }
 
 nifti_image_alloc_data <- function(nim)
 {
-	.Call("Rnifti_image_alloc_data",nim);
+  .Call("Rnifti_image_alloc_data", nim, PACKAGE="Rniftilib")
 }
 
 nifti_image_copy_info <- function(nim)
 {
-  .Call("Rnifti_image_copy_info",nim);
+  .Call("Rnifti_image_copy_info", nim, PACKAGE="Rniftilib")
 }
 
-nifti_set_filenames <-function(nim, prefix, check=1, set_byte_order=1)
+nifti_set_filenames <- function(nim, prefix, check=1, set_byte_order=1)
 {
-	.Call("Rnifti_set_filenames",nim, prefix, check, set_byte_order)
+  .Call("Rnifti_set_filenames", nim, prefix, check, set_byte_order,
+        PACKAGE="Rniftilib")
 }
 
 nifti_image_write <- function(nim) 
 {
-	.Call("Rnifti_image_write", nim); 
+  .Call("Rnifti_image_write", nim, PACKAGE="Rniftilib") 
 }
 
-dim.nifti<- function(nim, ...)
+dim.nifti <- function(x, ...)
 {
-	.Call("Rnifti_image_getdim",nim);
+  .Call("Rnifti_image_getdim", x, PACKAGE="Rniftilib")
 }
 
-nifti_image_getpixdim <-function(nim)
+nifti_image_getpixdim <- function(nim)
 {
-	.Call("Rnifti_image_getpixdim",nim);
+  .Call("Rnifti_image_getpixdim", nim, PACKAGE="Rniftilib")
 }
 
-nifti_image_getmat <-function(nim)
+nifti_image_getmat <- function(nim)
 {
-	.Call("Rnifti_image_getmat",nim);
+  .Call("Rnifti_image_getmat", nim, PACKAGE="Rniftilib")
 }
 
-nifti_image_getdim_save<-function(nim,index)
+nifti_image_getdim_save <- function(nim, index)
 {
-  d=dim(nim);
-  retval=1;
-  if(length(d)>=index)
-    retval=d[index];
-  retval;   
+  d <- dim(nim)
+  retval <- 1
+  if (length(d) >= index)
+    retval <- d[index]
+  retval   
 }
 
-"[.nifti"<-function(nim, 
-					x=1:nifti_image_getdim_save(nim,1),
-					y=1:nifti_image_getdim_save(nim,2),
-					z=1:nifti_image_getdim_save(nim,3),
-					t=1:nifti_image_getdim_save(nim,4))
+"[.nifti" <- function(nim, 
+                      x=1:nifti_image_getdim_save(nim,1),
+                      y=1:nifti_image_getdim_save(nim,2),
+                      z=1:nifti_image_getdim_save(nim,3),
+                      t=1:nifti_image_getdim_save(nim,4))
 {
-	.Call("Rnifti_image_getpixel",nim,x-1,y-1,z-1,t-1);
+  .Call("Rnifti_image_getpixel", nim, x-1, y-1, z-1, t-1,
+        PACKAGE="Rniftilib")
 }
 
-"[<-.nifti"<-function(nim, 
-					  x=1:nifti_image_getdim_save(nim,1),
-					  y=1:nifti_image_getdim_save(nim,2),
-					  z=1:nifti_image_getdim_save(nim,3),
-					  t=1:nifti_image_getdim_save(nim,4),
-					  value)
+"[<-.nifti" <- function(nim, 
+                        x=1:nifti_image_getdim_save(nim,1),
+                        y=1:nifti_image_getdim_save(nim,2),
+                        z=1:nifti_image_getdim_save(nim,3),
+                        t=1:nifti_image_getdim_save(nim,4),
+                        value)
 {
-	.Call("Rnifti_image_setpixel",nim,x-1,y-1,z-1,t-1,value);
+  .Call("Rnifti_image_setpixel", nim, x-1, y-1, z-1, t-1, value,
+        PACKAGE="Rniftilib")
 }
 
-"$.nifti"<-function(nim, sym)
+"$.nifti" <- function(nim, sym)
 {
-	.Call("Rnifti_image_getattribute", nim, sym);
+  .Call("Rnifti_image_getattribute", nim, sym, PACKAGE="Rniftilib")
 }
 
-"$<-.nifti"<-function(nim, sym, value)
+"$<-.nifti" <- function(nim, sym, value)
 {
-	.Call("Rnifti_image_setattribute", nim, sym, value);
+  .Call("Rnifti_image_setattribute", nim, sym, value, PACKAGE="Rniftilib")
 }
 
-nifti_image_setdatatype<-function(nim, value)
+nifti_image_setdatatype <- function(nim, value)
 {
-  .Call("Rnifti_image_setdatatype", nim, value);
+  .Call("Rnifti_image_setdatatype", nim, value, PACKAGE="Rniftilib")
 }
 
-nifti_interpolate3d<-function(nim, x, y, z, t=1)
+nifti_interpolate3d <- function(nim, x, y, z, t=1)
 {
-  iX=floor(x);
-  iY=floor(y);
-  iZ=floor(z);
-  coex=x-iX;
-  coey=y-iY;
-  coez=z-iZ;
-  #print("--");
-  #print(c(x,y,z));
-  #print(c(iX,iY,iZ));
-  #print(nifti_image_getdim_save(nifti_img,1));
-  #print(nifti_image_getdim_save(nifti_img,2));
-  #print(nifti_image_getdim_save(nifti_img,3));
+  iX <- floor(x)
+  iY <- floor(y)
+  iZ <- floor(z)
+  coex <- x-iX
+  coey <- y-iY
+  coez <- z-iZ
+  #print("--")
+  #print(c(x,y,z))
+  #print(c(iX,iY,iZ))
+  #print(nifti_image_getdim_save(nifti_img,1))
+  #print(nifti_image_getdim_save(nifti_img,2))
+  #print(nifti_image_getdim_save(nifti_img,3))
         
-  if(iX <=0 || iY<=0 || iZ<=0 
-     || iX+1>nifti_image_getdim_save(nifti_img,1)
-     || iY+1>nifti_image_getdim_save(nifti_img,2)
-     || iZ+1>nifti_image_getdim_save(nifti_img,3))
-    return(0);
+  if (iX <=0 || iY <= 0 || iZ <= 0 
+      || iX+1 > nifti_image_getdim_save(nifti_img,1)
+      || iY+1 > nifti_image_getdim_save(nifti_img,2)
+      || iZ+1 > nifti_image_getdim_save(nifti_img,3))
+    return(0)
       
-  p1=(1-coex)*(1-coey)*(1-coez)*nim[iX,iY,iZ,t];
-  p2=(1-coex)*(1-coey)*(  coez)*nim[iX,iY,iZ+1,t];
-  p3=(1-coex)*(  coey)*(1-coez)*nim[iX,iY+1,iZ,t];
-  p4=(1-coex)*(  coey)*(  coez)*nim[iX,iY+1,iZ+1,t];
-  p5=(  coex)*(1-coey)*(1-coez)*nim[iX+1,iY,iZ,t];
-  p6=(  coex)*(1-coey)*(  coez)*nim[iX+1,iY,iZ+1,t];
-  p7=(  coex)*(  coey)*(1-coez)*nim[iX+1,iY+1,iZ,t];
-  p8=(  coex)*(  coey)*(  coez)*nim[iX+1,iY+1,iZ+1,t];
-  p1+p2+p3+p4+p5+p6+p7+p8;
+  p1 <- (1-coex)*(1-coey)*(1-coez)*nim[iX,iY,iZ,t]
+  p2 <- (1-coex)*(1-coey)*(  coez)*nim[iX,iY,iZ+1,t]
+  p3 <- (1-coex)*(  coey)*(1-coez)*nim[iX,iY+1,iZ,t]
+  p4 <- (1-coex)*(  coey)*(  coez)*nim[iX,iY+1,iZ+1,t]
+  p5 <- (  coex)*(1-coey)*(1-coez)*nim[iX+1,iY,iZ,t]
+  p6 <- (  coex)*(1-coey)*(  coez)*nim[iX+1,iY,iZ+1,t]
+  p7 <- (  coex)*(  coey)*(1-coez)*nim[iX+1,iY+1,iZ,t]
+  p8 <- (  coex)*(  coey)*(  coez)*nim[iX+1,iY+1,iZ+1,t]
+  p1+p2+p3+p4+p5+p6+p7+p8
 }
 
 # generic functions to integrate the nifti methods into R environment
-plot.nifti<- function(nim,x=1:255)
+plot.nifti <- function(x, ...)
 {
-  image(nim[x,,10,1],col=gray(1:255/255))
+  image(x[,,10,1],col=gray(1:255/255))
 }
 
-print.nifti<- function(nim, ...)
+print.nifti <- function(x, ...)
 {
-#  print("nifti_image:");
-#  print(dim(nim));
-#  print("other attributes:");
-#  print(.Call("Rnifti_image_listattributes",nim));
-  .Call("Rnifti_image_printinfo",nim);
+#  print("nifti_image:")
+#  print(dim(nim))
+#  print("other attributes:")
+#  print(.Call("Rnifti_image_listattributes",nim))
+  .Call("Rnifti_image_printinfo", x, PACKAGE="Rniftilib")
 }
 
-displayDTI<- function(v1, v2, v3, ...)
+displayDTI <- function(v1, v2, v3, ...)
 {
-  colvec=rgb(abs(v1), abs(v2), abs(v3));
-  colors <- unique(colvec);
+  colvec <- rgb(abs(v1), abs(v2), abs(v3))
+  colors <- unique(colvec)
   colmat <- array(match(colvec, colors), dim=dim(v1)[1:2])
   image(x = 1:(dim(colmat)[2]), y=1:(dim(colmat)[1]),
         z = t(colmat), col=colors,
