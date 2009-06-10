@@ -5,17 +5,30 @@
   A nifti object contains the image description and data of an image volume. 
 }
 \arguments{
-  \item{qto_xyz}{} 
-  \item{qto_ijk}{hold voxel to mm transformation (?)}
-  \item{sto_xyz}{}
-  \item{sto_ijk}{} 
+  \item{qto_xyz}{hold voxel to mm transformation} 
+  \item{qto_ijk}{hold mm to voxel transformation}
+  \item{sto_xyz}{hold voxel to mm transformation}
+  \item{sto_ijk}{hold mm to voxel transformation} 
   \item{toffset}{}
-  \item{descrip}{hold description (up to 80 characters}
+  \item{descrip}{description (up to 80 characters}
   \item{fname}{header filename (store image information)}
   \item{iname}{image filename (store image data)}
   \item{slice_duration}{Time for 1 slice}	
-  \item{qform_code}{}
-  \item{sform_code}{}
+  \item{qform_code}{ \tabular{rc}{ 
+\code{NIFTI_XFORM_UNKNOWN} \tab 0\cr
+\code{NIFTI_XFORM_SCANNER_ANAT} \tab 1\cr
+\code{NIFTI_XFORM_ALIGNED_ANAT} \tab 2\cr
+\code{NIFTI_XFORM_TALAIRACH} \tab 3\cr
+\code{NIFTI_XFORM_MNI_152} \tab 4\cr
+qform code: >No< for unknown tags \tab <No>
+}}
+  \item{sform_code}{ \tabular{rc}{ 
+\code{NIFTI_XFORM_UNKNOWN} \tab 0\cr
+\code{NIFTI_XFORM_SCANNER_ANAT} \tab 1\cr
+\code{NIFTI_XFORM_ALIGNED_ANAT} \tab 2\cr
+\code{NIFTI_XFORM_TALAIRACH} \tab 3\cr
+\code{NIFTI_XFORM_MNI_152} \tab 4\cr
+qform code: >No< for unknown tags \tab <No>}}
   \item{quatern_b}{}
   \item{quatern_c}{}
   \item{quatern_d}{}
@@ -24,7 +37,11 @@
   \item{qoffset_z}{}
   \item{qfac}{}
   \item{pixdim}{Grid spacings.}
-  \item{nifti_type}{NIFTI\_FTYPE\_ANALYZE (0), NIFTI\_FTYPE\_NIFTI1\_1 (1), NIFTI\_FTYPE\_NIFTI1\_2  (2), NIFTI\_FTYPE\_ASCII (3)}
+  \item{nifti_type}{\tabular{rc}{ 
+\code{NIFTI_FTYPE_ANALYZE} \tab (0) \cr
+\code{NIFTI_FTYPE_NIFTI1_1} \tab (1) \cr
+\code{NIFTI_FTYPE_NIFTI1_2} \tab (2) \cr
+\code{NIFTI_FTYPE_ASCII} \tab (3)}}
   \item{sizeof_hdr}{MUST be 348}
   \item{datatype}{Defines data type!}
   \item{scl_slope}{nifti1: Data scaling: slope.  analyze 7.5: float funused1}
@@ -35,9 +52,12 @@
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
 \code{\link{nifti_image_read} \link{nifti_image_write}  \link{nifti_image_new}}
 }
+\keyword{package}
+\keyword{data}
+\keyword{manip}

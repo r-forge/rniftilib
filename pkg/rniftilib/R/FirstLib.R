@@ -111,17 +111,11 @@ nifti_interpolate3d <- function(nim, x, y, z, t=1)
   coex <- x-iX
   coey <- y-iY
   coez <- z-iZ
-  #print("--")
-  #print(c(x,y,z))
-  #print(c(iX,iY,iZ))
-  #print(nifti_image_getdim_save(nifti_img,1))
-  #print(nifti_image_getdim_save(nifti_img,2))
-  #print(nifti_image_getdim_save(nifti_img,3))
         
   if (iX <=0 || iY <= 0 || iZ <= 0 
-      || iX+1 > nifti_image_getdim_save(nifti_img,1)
-      || iY+1 > nifti_image_getdim_save(nifti_img,2)
-      || iZ+1 > nifti_image_getdim_save(nifti_img,3))
+      || iX+1 > nifti_image_getdim_save(nim,1)
+      || iY+1 > nifti_image_getdim_save(nim,2)
+      || iZ+1 > nifti_image_getdim_save(nim,3))
     return(0)
       
   p1 <- (1-coex)*(1-coey)*(1-coez)*nim[iX,iY,iZ,t]

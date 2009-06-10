@@ -23,7 +23,7 @@ nifti_interpolate3d(nim, x, y, z, t=1)
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{
@@ -43,4 +43,4 @@ plot(c(nifti_interpolate3d(nifti_img,100,100,3),
        xlab="position x", ylab="interpolation")
 }
 }
-\keyword{}
+\keyword{utilities}

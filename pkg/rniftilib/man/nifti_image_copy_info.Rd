@@ -22,7 +22,7 @@ nifti_image_copy_info(nim)
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
@@ -36,4 +36,4 @@ nifti_img1=nifti_image_read(file.choose())
 nifti_img2=nifti_image_copy_info(nifti_img1)
 }
 }
-\keyword{nifti_imgage_new}
+\keyword{manip}

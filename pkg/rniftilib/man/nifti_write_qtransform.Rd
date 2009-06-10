@@ -2,7 +2,7 @@
 \alias{nifti_write_qtransform}
 \title{Read data from nifti (analyse) files and write qtransform.}
 \description{
-  This function reads the data from a nifti file into the R environment.
+  This function reads the data from a NIfTI file into the R environment.
   and stores transformation matrix to scanner coordinate system.
 }
 \usage{
@@ -20,7 +20,7 @@
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
@@ -124,3 +124,4 @@ points(t(edges4[c(2,3),]),col=4)
 }
 }
 \keyword{interface}
+\keyword{manip}

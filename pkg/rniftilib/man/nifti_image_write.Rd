@@ -20,7 +20,7 @@ nifti_image_write(nim)
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{
@@ -33,4 +33,4 @@ nifti_img=nifti_image_read(file.choose())
 nifti_image_write(nifti_img)
 }
 }
-\keyword{interface}
+\keyword{IO}

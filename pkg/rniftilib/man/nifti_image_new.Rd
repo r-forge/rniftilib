@@ -19,7 +19,7 @@ nifti_image_new()
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
@@ -29,4 +29,5 @@ Oliver Granert <o.granert@neurologie.uni-kiel.de>
 \examples{
 nifti_img=nifti_image_new()
 }
-\keyword{nifti_imgage_new}
+\keyword{manip}
+\keyword{data}

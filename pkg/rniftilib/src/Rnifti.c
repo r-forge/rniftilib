@@ -420,28 +420,70 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 			  return Rnifti_float_SEXP(pnim->slice_duration); break;
 			case 9: /* qform_code */
 			  switch(pnim->qform_code)
-			  {
+			  {			  	
 			  	case NIFTI_XFORM_UNKNOWN:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_UNKNOWN"); break;
+			  	  /*! Arbitrary coordinates (Method 1). */
+			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_UNKNOWN"); 
+			  	  break;
 			  	case NIFTI_XFORM_SCANNER_ANAT:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_SCANNER_ANAT"); break;
+			  	  /*! Scanner-based anatomical coordinates */
+			      return Rnifti_pchar_SEXP("NIFTI_XFORM_SCANNER_ANAT"); 
+			      break;	
+			  	case NIFTI_XFORM_ALIGNED_ANAT:
+			  	 /*! Coordinates aligned to another file's,
+			  	     or to anatomical "truth".            */
+			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_ALIGNED_ANAT"); 
+			  	  break;	
+			  	case NIFTI_XFORM_TALAIRACH:
+	              /*! Coordinates aligned to Talairach-
+	                  Tournoux Atlas; (0,0,0)=AC, etc. */
+			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_TALAIRACH"); 
+			  	  break;
+			  	case NIFTI_XFORM_MNI_152:
+			  	  /*! MNI 152 normalized coordinates. */
+			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_MNI_152"); 
+			  	  break;
 			  	default:
-			  	  return Rnifti_pchar_SEXP("?"); break;
+			  	  {
+			  		char buffer[100];			  	  
+			  	    snprintf(buffer,100,"qform code: %d",pnim->qform_code);
+			  	    return Rnifti_pchar_SEXP(buffer); 
+			  	  }
+			  	  break;			  	  			  	                   
 			  }
 			  break;
 			case 10: /* sform_code */
 			  switch(pnim->sform_code)
 			  {
-			  	case NIFTI_XFORM_UNKNOWN:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_UNKNOWN"); break;
-			  	case NIFTI_XFORM_ALIGNED_ANAT:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_SCANNER_ANAT"); break;
-			  	case NIFTI_XFORM_TALAIRACH:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_TALAIRACH"); break;
-			  	case NIFTI_XFORM_MNI_152:
-			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_MNI_152"); break;
-			  	default:
-			  	  return Rnifti_pchar_SEXP("?"); break;
+			    case NIFTI_XFORM_UNKNOWN:
+  			  	  /*! Arbitrary coordinates (Method 1). */
+  			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_UNKNOWN"); 
+  			  	  break;
+  			  	case NIFTI_XFORM_SCANNER_ANAT:
+  			  	  /*! Scanner-based anatomical coordinates */
+  			      return Rnifti_pchar_SEXP("NIFTI_XFORM_SCANNER_ANAT"); 
+  			      break;	
+  			  	case NIFTI_XFORM_ALIGNED_ANAT:
+  			  	 /*! Coordinates aligned to another file's,
+  			  	     or to anatomical "truth".            */
+  			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_ALIGNED_ANAT"); 
+  			  	  break;	
+  			  	case NIFTI_XFORM_TALAIRACH:
+  	              /*! Coordinates aligned to Talairach-
+  	                  Tournoux Atlas; (0,0,0)=AC, etc. */
+  			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_TALAIRACH"); 
+  			  	  break;
+  			  	case NIFTI_XFORM_MNI_152:
+  			  	  /*! MNI 152 normalized coordinates. */
+  			  	  return Rnifti_pchar_SEXP("NIFTI_XFORM_MNI_152"); 
+  			  	  break;
+  			  	default:
+  			  	  {
+  			  		char buffer[100];			  	  
+  			  	    snprintf(buffer,100,"qform code: %d",pnim->qform_code);
+  			  	    return Rnifti_pchar_SEXP(buffer); 
+  			  	  }
+  		  	      break;			  			  	
 			  }
 			  break;
 			case 11: /* quatern_b 11 */

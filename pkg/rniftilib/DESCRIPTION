@@ -1,12 +1,12 @@
 Package: Rniftilib
-Version: 0.0-22
-Date: 2008-01-24
-Title: Rniftilib 0.0-22
-Author: Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Version: 0.0-24
+Date: 2009-06-10
+Title: Rniftilib 0.0-24
+Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 1.8.0)
 Suggests:
-Description: R interface to niftilib (V 0.5) (read/write analyse/nifti volume images)
+Description: R interface to nifticlib (nifticlib-1.1.0) (read/write ANALYZE(TM)7.5/NIfTI-1 volume images)
 License: GPL version 2 or newer
 URL: http://r-forge.r-project.org/projects/rniftilib/
 

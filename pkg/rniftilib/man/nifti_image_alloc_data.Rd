@@ -21,7 +21,7 @@ The function return the number of bytes allocated.
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
@@ -33,4 +33,5 @@ library(Rniftilib)
 nifti_img=nifti_image_new()
 no_of_bytes=nifti_image_alloc_data(nifti_img)
 }
-\keyword{nifti_image_alloc_data}
+\keyword{manip}
+\keyword{data}

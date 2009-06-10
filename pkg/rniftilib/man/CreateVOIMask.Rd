@@ -2,7 +2,7 @@
 \alias{CreateVOIMask}
 \title{Create a mask (VOI) image.}
 \description{
-  Create a mask in an image volume (NIFTI-file). 
+  Create a mask in an image volume (NIfTI-image object). 
 }
 \usage{
 CreateVOIMask(templatefile=file.choose(), output_basefilename, MNI, radius)
@@ -18,7 +18,7 @@ CreateVOIMask(templatefile=file.choose(), output_basefilename, MNI, radius)
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert<at>neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 \seealso{ 
   \code{\link{nifti_image_read}},

@@ -9,14 +9,15 @@
 displayDTI(v1, v2, v3, ...)
 }
 \arguments{
-\item{v1}{matrix used for red comp.}
-\item{v2}{matrix used for green comp.}
-\item{v3}{matrix used for blue comp.}
+\item{v1}{matrix used for red component}
+\item{v2}{matrix used for green component}
+\item{v3}{matrix used for blue component}
+\item{...}{additional arguments for the \code{\link{image}} function.}
 }
 \details{
 The function can be used to display diffusion tensor images (DTI). 
 The three components given as the parameters v1, v2, v3 are used to display a 
-colour image. The first comp. (v1) is used for the red channel, the second component (v2)
+colour image. The first component (v1) is used for the red channel, the second component (v2)
 is used for the green channel and the third (v3) is used for the blue channel.
 The components v1, v2, v3 should be given as a two-dimensional matrix or array.
 }
@@ -76,4 +77,4 @@ for(slice in 1:dim(nifti_img)[1])
 }
 }
 }
-\keyword{displayDTI}
+\keyword{dplot}

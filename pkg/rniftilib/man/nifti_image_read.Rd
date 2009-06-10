@@ -21,7 +21,7 @@ nifti_image_read(file, read_data=1)
 \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert@neurologie.uni-kiel.de>
+Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
@@ -43,4 +43,4 @@ nifti_img$iname # image filename (store image data)
 nifti_img$slice_duration #
 }
 }
-\keyword{interface}
+\keyword{IO}
