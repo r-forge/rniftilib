@@ -1,37 +1,38 @@
-\name{nifti_image_alloc_data}
-\alias{nifti_image_alloc_data}
+\name{nifti.image.alloc.data}
+\alias{nifti.image.alloc.data}
 \title{Allocate data block for NIFTI image}
 \description{
 Allocate data block for NIFTI image using the information from the header.
 }
 \usage{
-nifti_image_alloc_data(nim)
+nifti.image.alloc.data(nim)
 }
 \arguments{
-\item{nim}{the nifti object}
+  \item{nim}{the nifti object}
 }
 \details{
-The function return the number of bytes allocated.
+  The function return the number of bytes allocated.
 }
 \value{
 
 }
 \references{
-\url{http://nifti.nimh.nih.gov}
-\url{http://niftilib.sourceforge.net}
+  \url{http://nifti.nimh.nih.gov}
+  \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
+  Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
-\code{\link{nifti_image_new} \link{nifti_image_write} \link{nifti_image_read}}
+  \code{\link{nifti.image.new}},
+  \code{\link{nifti.image.write}},
+  \code{\link{nifti.image.read}}
 }
 
 \examples{
-library(Rniftilib)
-nifti_img=nifti_image_new()
-no_of_bytes=nifti_image_alloc_data(nifti_img)
+nifti.img=nifti.image.new()
+no.of.bytes=nifti.image.alloc.data(nifti.img)
 }
 \keyword{manip}
 \keyword{data}

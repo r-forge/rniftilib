@@ -1,34 +1,34 @@
 CreateVOIMask <- function(templatefile=file.choose(),
-                          output_basefilename, MNI, radius=2)
+                          output.basefilename, MNI, radius=2)
 {
-  nifti_img <- nifti_image_read(templatefile)
-  nifti_set_filenames(nifti_img, output_basefilename)
+  nifti.img <- nifti.image.read(templatefile)
+  nifti.set.filenames(nifti.img, output.basefilename)
   # show the result
-  #print(nifti_img$fname)
-  #print(nifti_img$iname)
-  nifti_img$scl_inter <- 0
-  nifti_img$scl_slope <- 1
+  #print(nifti.img$"fname")
+  #print(nifti.img$"iname")
+  nifti.img$"scl_inter" <- 0
+  nifti.img$"scl_slope" <- 1
 
-  #mval <- max(nifti_img[])
-  for (x in 1:dim(nifti_img)[1])
+  #mval <- max(nifti.img[])
+  for (x in 1:dim(nifti.img)[1])
   {
-    for (y in 1:dim(nifti_img)[2])
+    for (y in 1:dim(nifti.img)[2])
       {
-        for (z in 1:dim(nifti_img)[3])
+        for (z in 1:dim(nifti.img)[3])
           {
-            pos_mm  <-  nifti_img$qto_xyz %*% c(x-1,y-1,z-1,1)
-            if (sqrt(sum((MNI-pos_mm[1:3])^2)) <= radius)
+            pos.mm <- nifti.img$"qto_xyz" %*% c(x-1,y-1,z-1,1)
+            if (sqrt(sum((MNI-pos.mm[1:3])^2)) <= radius)
               { 
-                nifti_img[x,y,z] <- 1
+                nifti.img[x,y,z] <- 1
                 print(c(x,y,z))	   
               }
 	    else
               {
-                nifti_img[x,y,z] <- 0
+                nifti.img[x,y,z] <- 0
               }
           }
       }
   }
-  nifti_image_write(nifti_img)
+  nifti.image.write(nifti.img)
   invisible()
 }

@@ -1,6 +1,9 @@
 \name{MNITalairach}
 \alias{MNITalairach}
-\title{Convert MNI coordinates to Talairach coordinates.}
+\title{Convert MNI coordinates to Talairach coordinates}
+\usage{
+
+}
 \description{
 This is an example demonstrating coordinate transformations between MNI and Talairach space.
 To get from McGill [MNI]-SPM96-coordinates to Talairach 88-SPM 95 coordinates:

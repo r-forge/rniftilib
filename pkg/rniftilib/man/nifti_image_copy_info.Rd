@@ -1,5 +1,5 @@
-\name{nifti_image_copy_info}
-\alias{nifti_image_copy_info}
+\name{nifti.image.copy.info}
+\alias{nifti.image.copy.info}
 \title{Copy NIFTI image (info) without voxel data.}
 \description{
 Copy the nifti.image structure, without data.
@@ -8,7 +8,7 @@ Duplicate the structure, including fname, iname and extensions.
 Leave the data pointer as NULL.
 }
 \usage{
-nifti_image_copy_info(nim) 
+nifti.image.copy.info(nim) 
 }
 \arguments{
  \item{nim}{the nifti object}
@@ -18,22 +18,23 @@ nifti_image_copy_info(nim)
 \value{
 }
 \references{
-\url{http://nifti.nimh.nih.gov}
-\url{http://niftilib.sourceforge.net}
+  \url{http://nifti.nimh.nih.gov}
+  \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
+  Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{ 
-\code{\link{nifti_image_new} \link{nifti_image_read} \link{nifti_image_write}}
+  \code{\link{nifti.image.new}},
+  \code{\link{nifti.image.read}},
+  \code{\link{nifti.image.write}}
 }
 
 \examples{
 \dontrun{
-library(Rniftilib)
-nifti_img1=nifti_image_read(file.choose())
-nifti_img2=nifti_image_copy_info(nifti_img1)
+nifti.img1 <- nifti.image.read(file.choose())
+nifti.img2 <- nifti.image.copy.info(nifti.img1)
 }
 }
 \keyword{manip}

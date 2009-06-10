@@ -1,11 +1,11 @@
-\name{nifti_interpolate3d}
-\alias{nifti_interpolate3d}
+\name{nifti.interpolate3d}
+\alias{nifti.interpolate3d}
 \title{nifti.interpolate3d}
 \description{
   This function interpolates in 3d (in volume data).
 }
 \usage{
-nifti_interpolate3d(nim, x, y, z, t=1) 
+nifti.interpolate3d(nim, x, y, z, t=1) 
 }
 \arguments{
   \item{nim}{the nifti object}
@@ -27,19 +27,19 @@ Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{
-  \code{\link{nifti_image_read}},
-  \code{\link{nifti_image_write}},
-  \code{\link{nifti_image_new}}
+  \code{\link{nifti.image.read}},
+  \code{\link{nifti.image.write}},
+  \code{\link{nifti.image.new}}
 }
 
 \examples{
 \dontrun{
-nifti_img <- nifti_image_read(file.choose())
-plot(c(nifti_interpolate3d(nifti_img,100,100,3),
-       nifti_interpolate3d(nifti_img,100.25,100,3),
-       nifti_interpolate3d(nifti_img,100.5,100,3),
-       nifti_interpolate3d(nifti_img,100.75,100,3),
-       nifti_interpolate3d(nifti_img,101,100,3)),
+nifti.img <- nifti.image.read(file.choose())
+plot(c(nifti.interpolate3d(nifti.img,100,100,3),
+       nifti.interpolate3d(nifti.img,100.25,100,3),
+       nifti.interpolate3d(nifti.img,100.5,100,3),
+       nifti.interpolate3d(nifti.img,100.75,100,3),
+       nifti.interpolate3d(nifti.img,101,100,3)),
        xlab="position x", ylab="interpolation")
 }
 }

@@ -1,11 +1,11 @@
-\name{nifti_image_write}
-\alias{nifti_image_write}
-\title{Write data to nifti (analyse) files}
+\name{nifti.image.write}
+\alias{nifti.image.write}
+\title{Write data to NIfTI (Analyze) files}
 \description{
-  This function writes volume data to a nifti file.
+  This function writes volume data to a NIfTI file.
 }
 \usage{
-nifti_image_write(nim) 
+nifti.image.write(nim) 
 }
 \arguments{
   \item{nim}{the nifti object}
@@ -16,21 +16,22 @@ nifti_image_write(nim)
 
 }
 \references{
-\url{http://nifti.nimh.nih.gov}
-\url{http://niftilib.sourceforge.net}
+  \url{http://nifti.nimh.nih.gov}
+  \url{http://niftilib.sourceforge.net}
 }
 \author{
-Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
+  Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 }
 
 \seealso{
-\code{\link{nifti_image_read} \link{nifti_image_new}}
+  \code{\link{nifti.image.read}},
+  \code{\link{nifti.image.new}}
 }
 
 \examples{
 \dontrun{
-nifti_img=nifti_image_read(file.choose())
-nifti_image_write(nifti_img)
+nifti.img <- nifti.image.read(file.choose())
+nifti.image.write(nifti.img)
 }
 }
 \keyword{IO}
