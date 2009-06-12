@@ -122,13 +122,13 @@ nifti.interpolate3d <- function(nim, x, y, z, t=1)
 }
 
 # generic functions to integrate the nifti methods into R environment
-plot.nifti <- function(nim, 
-						x=1:nifti.image.getdim.save(nim,1),
-                        y=1:nifti.image.getdim.save(nim,2),
-                        z=1,
-                        t=1,...)
+plot.nifti <- function(x, 
+		       dim1=1:nifti.image.getdim.save(x,1),
+                       dim2=1:nifti.image.getdim.save(x,2),
+                       dim3=1,
+                       dim4=1,...)
 {
-  image(x,y,nim[x,y,z,t],col=gray(1:255/255))
+  image(dim1,dim2,x[dim1,dim2,dim3,dim4],col=gray(1:255/255))
 }
 
 print.nifti <- function(x, ...)
