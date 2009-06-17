@@ -7,12 +7,11 @@
 \usage{
 nifti.image.new() 
 }
-\arguments{
-}
 \details{
+Creates an image of size 1x1x1. 
 }
 \value{
-
+a \code{\link{nifti}} object
 }
 \references{
   \url{http://nifti.nimh.nih.gov}

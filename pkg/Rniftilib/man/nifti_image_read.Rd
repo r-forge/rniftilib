@@ -13,10 +13,10 @@ nifti.image.read(file, read_data=1)
   \item{read_data}{0=do not read data, 1=read data}
 }
 \details{
-  
+If \code{read_data=0} only the header info is loaded.  
 }
 \value{
-
+\code{\link{nifti}} object
 }
 \references{
   \url{http://nifti.nimh.nih.gov}

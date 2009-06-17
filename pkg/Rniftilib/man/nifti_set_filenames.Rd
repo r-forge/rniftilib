@@ -15,12 +15,7 @@ nifti.set.filenames(nim, prefix, check=1, set_byte_order=1)
   \item{set_byte_order}{flag to set nim->byteorder here (if
     set\_byte\_order=1 then byteorder is set based on the CPU type)}
 }
-\details{
-  
-}
-\value{
 
-}
 \references{
   \url{http://nifti.nimh.nih.gov}
   \url{http://niftilib.sourceforge.net}

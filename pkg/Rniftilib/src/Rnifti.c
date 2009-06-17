@@ -639,23 +639,6 @@ SEXP Rnifti_image_getdim(SEXP nim)
   return ret_val;
 }
 
-SEXP Rnifti_image_getpixdim(SEXP nim)
-{
-  SEXP ret_val=R_NilValue;
-  nifti_image *pnim=SEXP2NIFTI(nim);
-  
-  if(pnim!=NULL)
-    {
-      int i;
-      PROTECT(ret_val = NEW_NUMERIC(pnim->dim[0]));
-      for(i=0;i<pnim->dim[0];++i)
-	NUMERIC_POINTER(ret_val)[i]=pnim->pixdim[i+1];
-      UNPROTECT(1);
-    }	
-  return ret_val;
-}
-
-
 SEXP Rnifti_image_getpixel(SEXP nim,
 			SEXP sexp_x, SEXP sexp_y, 
 			SEXP sexp_z, SEXP sexp_t,

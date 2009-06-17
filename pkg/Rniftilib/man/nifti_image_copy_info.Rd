@@ -13,10 +13,6 @@ nifti.image.copy.info(nim)
 \arguments{
  \item{nim}{the nifti object}
 }
-\details{
-}
-\value{
-}
 \references{
   \url{http://nifti.nimh.nih.gov}
   \url{http://niftilib.sourceforge.net}

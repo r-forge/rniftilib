@@ -1,14 +1,11 @@
 \name{nifti.compiled.with.zlib}
 \alias{nifti.compiled.with.zlib}
-\title{Check compressed NIfTI file support.}
+\title{Check support for compressed NIfTI files.}
 \description{
 Return whether the given Rniftilib C-library was compiled with \code{HAVE_ZLIB} set.
 }
 \usage{
 nifti.compiled.with.zlib()
-}
-\details{
-  
 }
 \value{
  \item{TRUE}{library supports compressed files (.gz)} 

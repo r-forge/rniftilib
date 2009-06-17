@@ -29,21 +29,6 @@ nifti.image.write <- function(nim)
   .Call("Rnifti_image_write", nim, PACKAGE="Rniftilib") 
 }
 
-dim.nifti <- function(x, ...)
-{
-  .Call("Rnifti_image_getdim", x, PACKAGE="Rniftilib")
-}
-
-nifti.image.getpixdim <- function(nim)
-{
-  .Call("Rnifti_image_getpixdim", nim, PACKAGE="Rniftilib")
-}
-
-nifti.image.getmat <- function(nim)
-{
-  .Call("Rnifti_image_getmat", nim, PACKAGE="Rniftilib")
-}
-
 nifti.image.getdim.save <- function(nim, index)
 {
   d <- dim(nim)
@@ -53,41 +38,41 @@ nifti.image.getdim.save <- function(nim, index)
   retval   
 }
 
-"[.nifti" <- function(nim, 
-                      x=1:nifti.image.getdim.save(nim,1),
-                      y=1:nifti.image.getdim.save(nim,2),
-                      z=1:nifti.image.getdim.save(nim,3),
-                      t=1:nifti.image.getdim.save(nim,4),
-                      dim5=1:nifti.image.getdim.save(nim,5),
-                      dim6=1:nifti.image.getdim.save(nim,6),
-                      dim7=1:nifti.image.getdim.save(nim,7))
+"[.nifti" <- function(x, 
+                      dim1=1:nifti.image.getdim.save(x,1),
+                      dim2=1:nifti.image.getdim.save(x,2),
+                      dim3=1:nifti.image.getdim.save(x,3),
+                      dim4=1:nifti.image.getdim.save(x,4),
+                      dim5=1:nifti.image.getdim.save(x,5),
+                      dim6=1:nifti.image.getdim.save(x,6),
+                      dim7=1:nifti.image.getdim.save(x,7))
 {
-  .Call("Rnifti_image_getpixel", nim, x-1, y-1, z-1, t-1, dim5-1, dim6-1, dim7-1,
+  .Call("Rnifti_image_getpixel", x, dim1-1, dim2-1, dim3-1, dim4-1, dim5-1, dim6-1, dim7-1,
         PACKAGE="Rniftilib")
 }
 
-"[<-.nifti" <- function(nim, 
-                        x=1:nifti.image.getdim.save(nim,1),
-                        y=1:nifti.image.getdim.save(nim,2),
-                        z=1:nifti.image.getdim.save(nim,3),
-                        t=1:nifti.image.getdim.save(nim,4),
-                        dim5=1:nifti.image.getdim.save(nim,5),
-                        dim6=1:nifti.image.getdim.save(nim,6),
-                        dim7=1:nifti.image.getdim.save(nim,7),
+"[<-.nifti" <- function(x, 
+                        dim1=1:nifti.image.getdim.save(x,1),
+                        dim2=1:nifti.image.getdim.save(x,2),
+                        dim3=1:nifti.image.getdim.save(x,3),
+                        dim4=1:nifti.image.getdim.save(x,4),
+                        dim5=1:nifti.image.getdim.save(x,5),
+                        dim6=1:nifti.image.getdim.save(x,6),
+                        dim7=1:nifti.image.getdim.save(x,7),
                         value)
 {
-  .Call("Rnifti_image_setpixel", nim, x-1, y-1, z-1, t-1, dim5-1, dim6-1, dim7-1, value,
+  .Call("Rnifti_image_setpixel", x, dim1-1, dim2-1, dim3-1, dim4-1, dim5-1, dim6-1, dim7-1, value,
         PACKAGE="Rniftilib")
 }
 
-"$.nifti" <- function(nim, sym)
+"$.nifti" <- function(x, sym)
 {
-  .Call("Rnifti_image_getattribute", nim, sym, PACKAGE="Rniftilib")
+  .Call("Rnifti_image_getattribute", x, sym, PACKAGE="Rniftilib")
 }
 
-"$<-.nifti" <- function(nim, sym, value)
+"$<-.nifti" <- function(x, sym, value)
 {
-  .Call("Rnifti_image_setattribute", nim, sym, value, PACKAGE="Rniftilib")
+  .Call("Rnifti_image_setattribute", x, sym, value, PACKAGE="Rniftilib")
 }
 
 nifti.image.setdatatype <- function(nim, value)
@@ -124,20 +109,21 @@ nifti.interpolate3d <- function(nim, x, y, z, t=1)
 # generic functions to integrate the nifti methods into R environment
 plot.nifti <- function(x, 
 		       dim1=1:nifti.image.getdim.save(x,1),
-                       dim2=1:nifti.image.getdim.save(x,2),
-                       dim3=1,
-                       dim4=1,...)
+               dim2=1:nifti.image.getdim.save(x,2),
+               dim3=1,
+               dim4=1,...)
 {
-  image(dim1,dim2,x[dim1,dim2,dim3,dim4],col=gray(1:255/255))
+  image(dim1,dim2,x[dim1,dim2,dim3,dim4],col=gray(1:255/255),...)
 }
 
 print.nifti <- function(x, ...)
 {
-#  print("nifti.image:")
-#  print(dim(nim))
-#  print("other attributes:")
-#  print(.Call("Rnifti_image_listattributes",nim))
   .Call("Rnifti_image_printinfo", x, PACKAGE="Rniftilib")
+}
+
+dim.nifti <- function(x)
+{
+  .Call("Rnifti_image_getdim", x, PACKAGE="Rniftilib")
 }
 
 nifti.compiled.with.zlib <- function()

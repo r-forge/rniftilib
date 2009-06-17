@@ -1,22 +1,18 @@
 \name{nifti.interpolate3d}
 \alias{nifti.interpolate3d}
-\title{nifti.interpolate3d}
+\title{Interpolation between voxels}
 \description{
-  This function interpolates in 3d (in volume data).
+  This function interpolates in 3d between voxels (in volume data).
 }
 \usage{
 nifti.interpolate3d(nim, x, y, z, t=1) 
 }
 \arguments{
   \item{nim}{the nifti object}
-  \item{x}{x coordinate (subpixel)}
-  \item{y}{y coordinate (subpixel)}
-  \item{z}{z coordinate (subpixel)}
-  \item{t}{t coordinate (subpixel)}
-}
-\details{
-}
-\value{
+  \item{x}{x coordinate (subpixel/floating point)}
+  \item{y}{y coordinate (subpixel/floating point)}
+  \item{z}{z coordinate (subpixel/floating point)}
+  \item{t}{t coordinate (subpixel/floating point)}
 }
 \references{
 \url{http://nifti.nimh.nih.gov}

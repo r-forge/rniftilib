@@ -1,8 +1,8 @@
 \name{nifti.image.alloc.data}
 \alias{nifti.image.alloc.data}
-\title{Allocate data block for NIFTI image}
+\title{Allocate data block for NIfTI image}
 \description{
-Allocate data block for NIFTI image using the information from the header.
+Allocate data block for NIfTI image using the information from the header.
 }
 \usage{
 nifti.image.alloc.data(nim)
@@ -12,9 +12,6 @@ nifti.image.alloc.data(nim)
 }
 \details{
   The function return the number of bytes allocated.
-}
-\value{
-
 }
 \references{
   \url{http://nifti.nimh.nih.gov}
