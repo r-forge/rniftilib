@@ -139,3 +139,13 @@ print.nifti <- function(x, ...)
 #  print(.Call("Rnifti_image_listattributes",nim))
   .Call("Rnifti_image_printinfo", x, PACKAGE="Rniftilib")
 }
+
+nifti.compiled.with.zlib <- function()
+{
+  .Call("Rnifti_compiled_with_zlib", PACKAGE="Rniftilib")
+}
+
+nifti.disp.lib.version <- function()
+{
+  .Call("Rnifti_disp_lib_version", PACKAGE="Rniftilib")
+}

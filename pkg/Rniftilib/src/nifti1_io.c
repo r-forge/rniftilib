@@ -428,11 +428,17 @@ void nifti_disp_lib_hist( void )
 /*----------------------------------------------------------------------*/
 /*! display the nifti library version (via stdout)
 *//*--------------------------------------------------------------------*/
+/* replaced for Rniftilib (see below) 
 void nifti_disp_lib_version( void )
 {
    printf("%s, compiled %s\n", gni_version, __DATE__);
 }
+*/
 
+const char *nifti_disp_lib_version( void )
+{
+  return gni_version;
+}
 
 /*----------------------------------------------------------------------*/
 /*! nifti_image_read_bricks        - read nifti data as array of bricks

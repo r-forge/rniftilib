@@ -3,6 +3,8 @@
 #include <R.h>
 #include <Rdefines.h>
 
+extern char *gni_version;
+
 SEXP NIFTI_type_tag;
 #define SEXP2NIFTI(nim) ((TYPEOF(nim) != EXTPTRSXP || R_ExternalPtrTag(nim) != NIFTI_type_tag)?NULL:(nifti_image *)R_ExternalPtrAddr(nim))
 
@@ -1272,3 +1274,28 @@ SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value)
   return nim;
 }
 
+
+SEXP Rnifti_compiled_with_zlib(void)
+{
+  SEXP ret_val=R_NilValue;
+  
+  PROTECT(ret_val=NEW_LOGICAL(1));
+  LOGICAL_POINTER(ret_val)[0]=nifti_compiled_with_zlib();
+  UNPROTECT(1);
+  
+  return ret_val;
+}
+
+SEXP Rnifti_disp_lib_version(void)
+{
+	SEXP ret_val=R_NilValue;
+	char buffer[200];
+	
+    snprintf(buffer, 200, "%s, compiled %s", nifti_disp_lib_version(), __DATE__);
+    	
+	PROTECT(ret_val = NEW_CHARACTER(1));
+    SET_STRING_ELT(ret_val, 0, mkChar(buffer));	
+	UNPROTECT(1);
+		
+	return ret_val;
+}
