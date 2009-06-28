@@ -15,6 +15,11 @@
 #ifndef DONT_INCLUDE_ANALYZE_STRUCT
 #define DONT_INCLUDE_ANALYZE_STRUCT  /*** not needed herein ***/
 #endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "nifti1.h"                  /*** NIFTI-1 header specification ***/
 
 #include "znzlib.h"

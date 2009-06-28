@@ -1,2 +1,0 @@
-PKG_CPPFLAGS=-g -O2  -I/gtk/include 
-PKG_LIBS=  

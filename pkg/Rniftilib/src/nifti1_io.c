@@ -46,7 +46,7 @@ static char * gni_history[] =
   "0.2  16 Nov 2004 [rickr]\n"
   "     (Rick Reynolds of the National Institutes of Health, SSCC/DIRP/NIMH)\n"
   "   - included Mark's changes in the AFNI distribution (including znzlib/)\n"
-  "     (HAVE_ZLIB is commented out for the standard distribution)\n"
+  "     (HAVE_LIBZ is commented out for the standard distribution)\n"
   "   - modified nifti_validfilename() and nifti_makebasename()\n"
   "   - added nifti_find_file_extension()\n"
   "\n",
@@ -2483,7 +2483,7 @@ char * nifti_find_file_extension( const char * name )
         (strcmp(ext, ".nia") == 0) || (strcmp(ext, ".nii") == 0) )
       return ext;
 
-#ifdef HAVE_ZLIB
+#ifdef HAVE_LIBZ
    if ( len < 7 ) return NULL;
 
    ext = (char *)name + len - 7;
@@ -2506,7 +2506,7 @@ int nifti_is_gzfile(const char* fname)
 {
   /* return true if the filename ends with .gz */
   if (fname == NULL) { return 0; }
-#ifdef HAVE_ZLIB
+#ifdef HAVE_LIBZ
   { /* just so len doesn't generate compile warning */
      int len;
      len = strlen(fname);
@@ -2518,11 +2518,11 @@ int nifti_is_gzfile(const char* fname)
 }
 
 /*----------------------------------------------------------------------*/
-/*! return whether the given library was compiled with HAVE_ZLIB set
+/*! return whether the given library was compiled with HAVE_LIBZ set
 *//*--------------------------------------------------------------------*/
 int nifti_compiled_with_zlib(void)
 {
-#ifdef HAVE_ZLIB
+#ifdef HAVE_LIBZ
     return 1;
 #else
     return 0;
@@ -2621,7 +2621,7 @@ char * nifti_findhdrname(const char* fname)
    strcpy(hdrname,basename);
    strcat(hdrname,elist[efirst]);
    if (nifti_fileexists(hdrname)) { free(basename); return hdrname; }
-#ifdef HAVE_ZLIB
+#ifdef HAVE_LIBZ
    strcat(hdrname,".gz"); 
    if (nifti_fileexists(hdrname)) { free(basename); return hdrname; }
 #endif
@@ -2633,7 +2633,7 @@ char * nifti_findhdrname(const char* fname)
    strcpy(hdrname,basename);
    strcat(hdrname,elist[efirst]);
    if (nifti_fileexists(hdrname)) { free(basename); return hdrname; }
-#ifdef HAVE_ZLIB
+#ifdef HAVE_LIBZ
    strcat(hdrname,".gz"); 
    if (nifti_fileexists(hdrname)) { free(basename); return hdrname; }
 #endif
@@ -2693,7 +2693,7 @@ char * nifti_findimgname(const char* fname , int nifti_type)
       strcpy(imgname,basename);
       strcat(imgname,ext[first]);
       if (nifti_fileexists(imgname)) { free(basename); return imgname; }
-#ifdef HAVE_ZLIB  /* then also check for .gz */
+#ifdef HAVE_LIBZ  /* then also check for .gz */
       strcat(imgname,".gz");
       if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #endif
@@ -2703,7 +2703,7 @@ char * nifti_findimgname(const char* fname , int nifti_type)
       strcpy(imgname,basename);
       strcat(imgname,ext[1-first]);  /* can do this with only 2 choices */
       if (nifti_fileexists(imgname)) { free(basename); return imgname; }
-#ifdef HAVE_ZLIB  /* then also check for .gz */
+#ifdef HAVE_LIBZ  /* then also check for .gz */
       strcat(imgname,".gz");
       if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #endif
@@ -2752,7 +2752,7 @@ char * nifti_makehdrname(const char * prefix, int nifti_type, int check,
    else if( nifti_type == NIFTI_FTYPE_ASCII )    strcat(iname, ".nia");
    else                                          strcat(iname, ".hdr");
 
-#ifdef HAVE_ZLIB  /* then also check for .gz */
+#ifdef HAVE_LIBZ  /* then also check for .gz */
    if( comp && (!ext || !strstr(iname,".gz")) ) strcat(iname,".gz");
 #endif
 
@@ -2805,7 +2805,7 @@ char * nifti_makeimgname(const char * prefix, int nifti_type, int check,
    else if( nifti_type == NIFTI_FTYPE_ASCII )    strcat(iname, ".nia");
    else                                          strcat(iname, ".img");
 
-#ifdef HAVE_ZLIB  /* then also check for .gz */
+#ifdef HAVE_LIBZ  /* then also check for .gz */
    if( comp && (!ext || !strstr(iname,".gz")) ) strcat(iname,".gz");
 #endif
 
@@ -3824,10 +3824,10 @@ nifti_image *nifti_image_read( const char *hname , int read_data )
 
    if( g_opts.debug > 1 ){
       fprintf(stderr,"-d image_read from '%s', read_data = %d",hname,read_data);
-#ifdef HAVE_ZLIB
-      fprintf(stderr,", HAVE_ZLIB = 1\n");
+#ifdef HAVE_LIBZ
+      fprintf(stderr,", HAVE_LIBZ = 1\n");
 #else
-      fprintf(stderr,", HAVE_ZLIB = 0\n");
+      fprintf(stderr,", HAVE_LIBZ = 0\n");
 #endif
    }
 
