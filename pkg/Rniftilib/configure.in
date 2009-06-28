@@ -1,6 +1,6 @@
-AC_INIT(Rniftilib configuration script, 0.0.11, olivergranert@gmx.de)
+AC_INIT(Rniftilib configuration script, 0.0.11)
 
-AC_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(src/config.h)
 
 # Checks for programs.
 AC_PROG_CXX
@@ -32,10 +32,10 @@ dnl fi
 dnl pkg_modules="gtk+-2.0"
 dnl PKG_CHECK_MODULES(PACKAGE, $pkg_modules)
 
-dnl CHECK_ZLIB()
+CHECK_ZLIB()
 dnl PACKAGE_CFLAGS=-DHAVE_ZLIB
 dnl PACKAGE_LIBS=/gtk/bin/zlib1.dll
-INCLUDE=-I/gtk/include
+dnl INCLUDE=-I/gtk/include
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
 AC_SUBST(LIBS)
