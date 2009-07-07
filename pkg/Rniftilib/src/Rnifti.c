@@ -3,6 +3,8 @@
 #include <R.h>
 #include <Rdefines.h>
 
+//#include "International.h"
+
 extern char *gni_version;
 
 SEXP NIFTI_type_tag;
@@ -639,6 +641,59 @@ SEXP Rnifti_image_getdim(SEXP nim)
   return ret_val;
 }
 
+SEXP Rnifti_image_getpixel2(SEXP sexp_args)
+{	  
+	SEXP ret_val=R_NilValue;
+    // skip function name
+ 	sexp_args = CDR(sexp_args);
+ 	
+ 	// check first argument (should be a nifti object)
+	if(sexp_args == R_NilValue)
+	{
+		warning("First argument must be a nifti object.");
+		return ret_val;
+    }
+	// grab nifti object
+ 	SEXP nim = CAR(sexp_args);
+	nifti_image *pnim=SEXP2NIFTI(nim);  
+	if(pnim!=NULL)
+	{
+		int i;
+		for(i = 0; sexp_args != R_NilValue; i++) 
+		{
+			Rprintf("arg %04d: ",i);
+			SEXP value = CAR(sexp_args);
+			
+			if(value == NULL_USER_OBJECT)
+			  Rprintf("NULL");				
+			if(IS_LOGICAL(value) && LENGTH(value)>0)
+			  Rprintf("%s ",LOGICAL_POINTER(value)[0]?"TRUE":"FALSE");
+			if(IS_NUMERIC(value) && LENGTH(value)>0)
+			  Rprintf("%f ",NUMERIC_POINTER(value)[0]);
+			if(IS_INTEGER(value) && LENGTH(value)>0)
+			  Rprintf("%d ",INTEGER_POINTER(value)[0]);
+			if(IS_CHARACTER(value) && LENGTH(value)>0)
+			{
+				Rprintf("%s ",CHAR(STRING_ELT(value , 0)));
+			}
+			// the name of the argument
+			{				
+				SEXP printname = PRINTNAME(TAG(sexp_args));
+				if(printname != NULL_USER_OBJECT)
+					Rprintf(" (%s) ",CHAR(printname));
+			}	
+			Rprintf("\n");
+
+			sexp_args = CDR(sexp_args);
+		}
+	}
+	else
+	  warning("First argument must be a nifti object.");
+	return ret_val;
+}
+
+#define REALDIM(iDim) ((iDim<(pnim->dim[0]))?pnim->dim[iDim+1]:1)
+
 SEXP Rnifti_image_getpixel(SEXP nim,
 			SEXP sexp_x, SEXP sexp_y, 
 			SEXP sexp_z, SEXP sexp_t,
@@ -646,6 +701,13 @@ SEXP Rnifti_image_getpixel(SEXP nim,
 {
   SEXP ret_val=R_NilValue;
   nifti_image *pnim=SEXP2NIFTI(nim);
+  
+  if(IS_LOGICAL(sexp_x) || IS_LOGICAL(sexp_y) || IS_LOGICAL(sexp_z) || IS_LOGICAL(sexp_t) || 
+     IS_LOGICAL(sexp_dim5) || IS_LOGICAL(sexp_dim6) || IS_LOGICAL(sexp_dim7))
+  {
+	  error("logical indices are not supported yet!");
+	  return nim; 
+  }
   
   if(pnim!=NULL)
   {
@@ -661,20 +723,21 @@ SEXP Rnifti_image_getpixel(SEXP nim,
       
     int iDim,outdim=0;
     int *iCoord[7];
+    // determine number of dimensions in output matrix
     for(iDim=0;iDim<7;++iDim)
-	{
+    {
 	  if(LENGTH(coord[iDim])>1) outdim++;
 	  iCoord[iDim]=INTEGER(coord[iDim]);
-	}
-      
+    }
+    // check if indices are valid (out of bounds?)
     int iCoordCounter;
     for(iDim=0;iDim<7;++iDim)
-	  for(iCoordCounter=0;iCoordCounter<LENGTH(coord[iDim]);++iCoordCounter)
-	    if(   iCoord[iDim][iCoordCounter]<0 || iCoord[iDim][iCoordCounter]>(int)pnim->dim[iDim+1])
+	  for(iCoordCounter=0;iCoordCounter<LENGTH(coord[iDim]);++iCoordCounter)	
+	    if(   iCoord[iDim][iCoordCounter]<0 || iCoord[iDim][iCoordCounter]>=REALDIM(iDim))
 	    {
-	      error("nifti: index out of range\n");
+	      error("nifti: index out of range (dimension %d index %d dim: %d) \n",iDim,iCoord[iDim][iCoordCounter],REALDIM(iDim));
 	      UNPROTECT(7);
-	      return ret_val; 
+	      return nim; 
 	    }
       
     PROTECT(ret_val = NEW_NUMERIC(LENGTH(sexp_x)*LENGTH(sexp_y)*LENGTH(sexp_z)*LENGTH(sexp_t)));
@@ -1014,20 +1077,18 @@ SEXP Rnifti_image_setpixel(
 		SEXP sexp_dim5, SEXP sexp_dim6, SEXP sexp_dim7,
 		SEXP value)
 {
-  SEXP ret_val=R_NilValue;
   nifti_image *pnim=SEXP2NIFTI(nim);
   
-  if(pnim!=NULL)
+  if(IS_LOGICAL(sexp_x) || IS_LOGICAL(sexp_y) || IS_LOGICAL(sexp_z) || IS_LOGICAL(sexp_t) || 
+     IS_LOGICAL(sexp_dim5) || IS_LOGICAL(sexp_dim6) || IS_LOGICAL(sexp_dim7))
   {
-      /*PROTECT(sexp_x = AS_INTEGER(sexp_x));
-	PROTECT(sexp_y = AS_INTEGER(sexp_y));
-	PROTECT(sexp_z = AS_INTEGER(sexp_z));
-	PROTECT(sexp_t = AS_INTEGER(sexp_t));
-	int x=INTEGER(sexp_x)[0];
-	int y=INTEGER(sexp_y)[0];
-	int z=INTEGER(sexp_z)[0];
-	int t=INTEGER(sexp_t)[0];*/
-      
+	  error("logical indices are not supported");
+	  return nim; 
+  }
+  
+  PROTECT(value = AS_NUMERIC(value));
+  if(pnim!=NULL && IS_NUMERIC(value))
+  {      
     SEXP coord[7];
     PROTECT(coord[0] = AS_INTEGER(sexp_x));
     PROTECT(coord[1] = AS_INTEGER(sexp_y));
@@ -1040,31 +1101,38 @@ SEXP Rnifti_image_setpixel(
       
     int iDim,outdim=0;
     int *iCoord[7];
+   
+    // determine number of dimensions in output matrix
     for(iDim=0;iDim<7;++iDim)
 	{
 	  if(LENGTH(coord[iDim])>1) outdim++;
-	  iCoord[iDim]=INTEGER(coord[iDim]);
+	  iCoord[iDim]=INTEGER(coord[iDim]);	  
 	}
-      
+    // check if indices are valid (out of bounds?)
     int iCoordCounter;
     for(iDim=0;iDim<7;++iDim)
-	  for(iCoordCounter=0;iCoordCounter<LENGTH(coord[iDim]);++iCoordCounter)
-	    if(   iCoord[iDim][iCoordCounter]<0 
-	       || iCoord[iDim][iCoordCounter]>(int)pnim->dim[iDim+1])
+	  for(iCoordCounter=0;iCoordCounter<LENGTH(coord[iDim]);++iCoordCounter)	
+	    if(   iCoord[iDim][iCoordCounter]<0 || iCoord[iDim][iCoordCounter]>=REALDIM(iDim))
 	    {
-	      error("nifti: index out of range\n");
-	      UNPROTECT(4);
-	      return ret_val; 
-	    }
+	      error("nifti: index out of range (dimension %d index %d)",iDim+1,iCoord[iDim][iCoordCounter]+1);
+	      UNPROTECT(8);
+	      return nim; 
+	    }    
+  
     int iIndex[7], iTOffset=0, iSOffset=0;
-      /*
-	if(   x<0 || x>=(int)pnim->dim[1]
-	|| y<0 || y>=(int)pnim->dim[2] 
-	|| z<0 || z>=(int)pnim->dim[3]
-	|| t<0 || t>=(int)pnim->dim[4])
-	error("Rnifti_image_setpixel: index out of range\n");	
-	else
-	{	*/
+   
+    int total=LENGTH(coord[0]);
+    for(iDim=1;iDim<7;++iDim)
+      total*=LENGTH(coord[iDim]);    
+    
+    if(LENGTH(value)>total || total%LENGTH(value)!=0)
+    {      
+      UNPROTECT(8);
+      error("number of items to replace is not a multiple of replacement length");
+      return nim; 
+    }
+    
+    
     switch(pnim->datatype)
 	{
 	/* uchar (8 bits) */
@@ -1085,7 +1153,7 @@ SEXP Rnifti_image_setpixel(
 		                      + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 		                      + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 		            ((unsigned char*)pnim->data)[iTOffset]=(unsigned char)(NUMERIC_POINTER(value)[iSOffset]);
-		            ++iSOffset;
+		            ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 		          }	
 	  break;
     /* signed char (8 bits) */
@@ -1106,7 +1174,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 			        ((signed char*)pnim->data)[iTOffset]=(signed char)(NUMERIC_POINTER(value)[iSOffset]);
-			        ++iSOffset;
+			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }	
 		  break;	
 	/* unsigned short (16 bits) */
@@ -1127,7 +1195,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 			        ((unsigned short*)pnim->data)[iTOffset]=(unsigned short)(NUMERIC_POINTER(value)[iSOffset]);
-			        ++iSOffset;
+			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }
 	  break;
 	// signed short (16 bits)
@@ -1149,7 +1217,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 		    		((short*)pnim->data)[iTOffset]=(short)(NUMERIC_POINTER(value)[iSOffset]);
-		    		++iSOffset;
+		    		++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }				  
 	  break;
 	// signed int (32 bits)
@@ -1170,7 +1238,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 			        ((int*)pnim->data)[iTOffset]=(int)(NUMERIC_POINTER(value)[iSOffset]);
-			        ++iSOffset;
+			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }
 	  break;
     /* unsigned int (32 bits) */	  
@@ -1191,7 +1259,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 			        ((unsigned int*)pnim->data)[iTOffset]=(unsigned int)(NUMERIC_POINTER(value)[iSOffset]);
-			        ++iSOffset;
+			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }
 	  break;
 	/* float (32 bits) */
@@ -1212,7 +1280,7 @@ SEXP Rnifti_image_setpixel(
 			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];			          
 			        ((float*)pnim->data)[iTOffset]=(float)(NUMERIC_POINTER(value)[iSOffset]);
-			        ++iSOffset;
+			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 			      }
 	  break;
     // double (64 bits)
@@ -1233,13 +1301,13 @@ SEXP Rnifti_image_setpixel(
 	  			                  + iCoord[5][iIndex[5]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]
 	  			                  + iCoord[6][iIndex[6]]*pnim->dim[1]*pnim->dim[2]*pnim->dim[3]*pnim->dim[4]*pnim->dim[5]*pnim->dim[6];
 	  			        ((double*)pnim->data)[iTOffset]=(double)(NUMERIC_POINTER(value)[iSOffset]);
-	  			        ++iSOffset;
+	  			        ++iSOffset; if(iSOffset==LENGTH(value)) iSOffset=0;
 	  			      }
 	  break;
 	default:
 	  warning("unsupported data format (identifier %d)",pnim->datatype);
 	}
-    UNPROTECT(4);
+    UNPROTECT(8);
   }	
   return nim;
 }
