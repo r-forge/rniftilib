@@ -11,7 +11,7 @@ nifti.image.new()
 Creates an image of size 1x1x1. 
 }
 \value{
-a \code{\link{nifti}} object
+A \code{\link{nifti}} object
 }
 \references{
   \url{http://nifti.nimh.nih.gov}
@@ -27,7 +27,10 @@ a \code{\link{nifti}} object
 }
 
 \examples{
-nifti.img=nifti.image.new()
+# create 1x1x1 nifti volume
+nim=nifti.image.new() 
+# resize nifti volume to 15x15x15 
+nim$dim<-c(15,15,15) 
 }
 \keyword{manip}
 \keyword{data}

@@ -50,6 +50,11 @@ char *Rnifti_attributes[] =
     "datatype",         /* 21 */
     "scl.slope",        /* 22 nifti1: Data scaling: slope.  analyze 7.5: float funused1; */
     "scl.inter",        /* 23 nifti1: Data scaling: offset. analyze 7.5: float funused2; */
+    "qto_xyz", 			/* 24 */
+    "qto_ijk", 			/* 25 */
+    "sto_xyz", 			/* 26 */
+    "sto_ijk", 			/* 27 */    
+    "dim",              /* 28 */
     NULL
   };
 
@@ -293,14 +298,26 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
       UNPROTECT(1);
       switch(iIndex)
 	{
-	case 0: /*qto_xyz*/
-	  Rnifti_SEXP_mat44(value,&(pnim->qto_xyz)); break;
-	case 1: /*qto_ijk*/
-	  Rnifti_SEXP_mat44(value,&(pnim->qto_ijk)); break;
-	case 2: /*sto_xyz*/
-	  Rnifti_SEXP_mat44(value,&(pnim->sto_xyz)); break;	
-	case 3: /*sto_ijk*/
-	  Rnifti_SEXP_mat44(value,&(pnim->sto_ijk)); break;
+    case 0: /*qto.xyz*/
+	  //Rnifti_SEXP_mat44(value,&(pnim->qto_xyz)); 
+	  error("set attribute qto.xyz not implemented use qto_xyz!"); break;
+	case 1: /*qto.ijk*/
+	  //Rnifti_SEXP_mat44(value,&(pnim->qto_ijk)); break;
+	  error("set attribute qto.ijk not implemented use qto_ijk!"); break;
+	case 2: /*sto.xyz*/
+	  //Rnifti_SEXP_mat44(value,&(pnim->sto_xyz)); break;
+	  error("set attribute sto.xyz not implemented use sto_xyz!"); break;
+	case 3: /*sto.ijk*/
+	  //Rnifti_SEXP_mat44(value,&(pnim->sto_ijk)); break;
+	  error("set attribute sto.ijk not implemented use sto_ijk!"); break;  	  
+  	case 24: /*qto_xyz*/
+  	  Rnifti_SEXP_mat44(value,&(pnim->qto_xyz)); break;
+  	case 25: /*qto_ijk*/
+  	  Rnifti_SEXP_mat44(value,&(pnim->qto_ijk)); break;
+  	case 26: /*sto_xyz*/
+  	  Rnifti_SEXP_mat44(value,&(pnim->sto_xyz)); break;	
+  	case 27: /*sto_ijk*/
+  	  Rnifti_SEXP_mat44(value,&(pnim->sto_ijk)); break;
 	case 4: /*toffset*/
 	  Rnifti_SEXP_float(value,&pnim->toffset); break;
 	case 5: /*descrip*/
@@ -373,7 +390,26 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 	  else
 	    error("Only nummeric values are allowed to set scl_inter.\n");
 	  break;	
-	  
+	case 28: /* dim */
+		PROTECT(value = AS_INTEGER(value));
+		if(length(value)>1 && length(value)<=7)
+		{
+		   int iIndex;
+		   pnim->dim[0]=length(value);
+		   for(iIndex=0;iIndex<length(value);++iIndex)
+		   {
+			  pnim->dim[iIndex+1]=INTEGER_POINTER(value)[iIndex];
+		   }
+		   // correct dependend structure entries
+		   nifti_update_dims_from_array(pnim);
+		   // correct size of data array if necessary
+		   if( pnim->data != NULL )
+		     Rnifti_image_alloc_data(nim);		   
+		 }
+		 else
+		    error("Length of vector not compatible with the number of dimensions.\n");
+		 UNPROTECT(1);
+		 break;	  			   	  
 	default:
 	  error("Rnifti_image_setattribute: unknown attribute\n"); 
 	  break;
@@ -401,15 +437,83 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
       UNPROTECT(1);
       switch(iIndex)
 	{
-	case 0: /*qto_xyz*/
-	  return Rnifti_mat44_SEXP(&(pnim->qto_xyz)); break;
-	case 1: /*qto_ijk*/
-	  return Rnifti_mat44_SEXP(&(pnim->qto_ijk)); break;
-	case 2: /*sto_xyz*/
-	  return Rnifti_mat44_SEXP(&(pnim->sto_xyz)); break;	
-	case 3: /*sto_ijk*/
-	  return Rnifti_mat44_SEXP(&(pnim->sto_ijk)); break;
-	case 4: /*toffset*/
+      /* R comaptible transformation matrices */
+      case 0: /*qto.xyz*/
+  	  // old: return Rnifti_mat44_SEXP(&(pnim->qto_xyz)); break;
+  	  {   // generate a matrix compatible with R indexing (voxel start index at 1)
+  		  mat44 Rqto_xyz;
+  		  for(int r=0;r<4;++r)
+  		  {
+  			  for(int c=0;c<4;++c)
+  			  {
+  				  Rqto_xyz.m[r][c]=pnim->qto_xyz.m[r][c];			
+  			  }		  
+  			  Rqto_xyz.m[r][3]=Rqto_xyz.m[r][3]-Rqto_xyz.m[r][0]-Rqto_xyz.m[r][1]-Rqto_xyz.m[r][2];
+  	      }
+  		  return Rnifti_mat44_SEXP(&Rqto_xyz); 
+  	  }
+  	  break;
+  	case 1: /*qto.ijk*/
+  	  // old: return Rnifti_mat44_SEXP(&(pnim->qto_ijk)); break;
+  	  {   // generate a matrix compatible with R indexing (voxel start index at 1)
+  		  mat44 Rqto_ijk;
+  		  for(int r=0;r<3;++r)
+  		  {
+  			  for(int c=0;c<4;++c)
+  			  {
+  				  Rqto_ijk.m[r][c]=pnim->qto_ijk.m[r][c]+pnim->qto_ijk.m[3][c];				  
+  			  }		  			  
+  	      }
+  		  for(int c=0;c<4;++c)
+  		  {
+  			  Rqto_ijk.m[3][c]=pnim->qto_ijk.m[3][c];
+  		  }
+  		  return Rnifti_mat44_SEXP(&Rqto_ijk); 
+  	  }
+  	  break;
+  	case 2: /*sto.xyz*/
+  	  // old: return Rnifti_mat44_SEXP(&(pnim->sto_xyz)); break;	  
+  	  {   // generate a matrix compatible with R indexing (voxel start index at 1)
+  		  mat44 Rsto_xyz;
+  		  for(int r=0;r<4;++r)
+  		  {
+  			  for(int c=0;c<4;++c)
+  			  {
+  				  Rsto_xyz.m[r][c]=pnim->sto_xyz.m[r][c];			
+  			  }		  
+  			  Rsto_xyz.m[r][3]=Rsto_xyz.m[r][3]-Rsto_xyz.m[r][0]-Rsto_xyz.m[r][1]-Rsto_xyz.m[r][2];
+  	      }
+  		  return Rnifti_mat44_SEXP(&Rsto_xyz); 
+  	  }
+  	  break;
+  	case 3: /*sto.ijk*/
+  	  // old: return Rnifti_mat44_SEXP(&(pnim->sto_ijk)); break;	  
+  	  {   // generate a matrix compatible with R indexing (voxel index start at 1)
+  		  mat44 Rsto_ijk;
+  		  for(int r=0;r<3;++r)
+  		  {
+  			  for(int c=0;c<4;++c)
+  			  {
+  				  Rsto_ijk.m[r][c]=pnim->sto_ijk.m[r][c]+pnim->sto_ijk.m[3][c];				  
+  			  }		  			  
+  	      }
+  		  for(int c=0;c<4;++c)
+  		  {
+  			  Rsto_ijk.m[3][c]=pnim->sto_ijk.m[3][c];
+  		  }
+  		  return Rnifti_mat44_SEXP(&Rsto_ijk); 
+  	  }
+  	  break;
+      /* C comaptible transformation matrices (voxel index start at 0)*/
+  	case 24: /*qto_xyz*/
+  	  return Rnifti_mat44_SEXP(&(pnim->qto_xyz)); break;	  
+  	case 25: /*qto_ijk*/
+  	  return Rnifti_mat44_SEXP(&(pnim->qto_ijk)); break;	  
+  	case 26: /*sto_xyz*/
+  	  return Rnifti_mat44_SEXP(&(pnim->sto_xyz)); break;	
+  	case 27: /*sto_ijk*/
+  	  return Rnifti_mat44_SEXP(&(pnim->sto_ijk)); break;
+  	case 4: /*toffset*/
 	  return Rnifti_float_SEXP(pnim->toffset); break;
 	case 5: /*descrip*/
 	  return Rnifti_pchar_SEXP(pnim->descrip); break;
@@ -543,7 +647,20 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	  break;	
 	case 23: /* scl_inter nifti1: Data scaling: offset. analyze 7.5: float funused2 */
 	  return Rnifti_float_SEXP(pnim->scl_inter);
-	  break;							
+	  break;		
+	case 28: /* dim */
+	  if(pnim->dim[0]>0 && pnim->dim[0]<8)
+	  {
+	    PROTECT(ret_val=NEW_INTEGER(pnim->dim[0]));
+	    for(iIndex=0;iIndex<pnim->dim[0];++iIndex)
+	    {
+		  INTEGER_POINTER(ret_val)[iIndex]=pnim->dim[iIndex+1];
+	    }
+		UNPROTECT(1);
+	  }
+	  else
+	    error("Rnifti_image_getattribute: incorrect number of dimensions in dim[0]!\n");
+	  break;
 	default:
 	  error("Rnifti_image_getattribute: unknown symbol\n"); break;
 	  

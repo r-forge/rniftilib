@@ -31,15 +31,19 @@
 \arguments{
   \item{x}{NIfTI image object (class nifti)}
   \item{sym}{  \tabular{rc}{
-  \code{qto.xyz}\tab voxel to mm transformation\cr 
-  \code{qto.ijk}\tab mm to voxel transformation\cr
-  \code{sto.xyz}\tab voxel to mm transformation\cr
-  \code{sto.ijk}\tab mm to voxel transformation\cr
+  \code{qto.xyz}\tab voxel to mm transformation (R style indexing!)\cr 
+  \code{qto.ijk}\tab mm to voxel transformation (R style indexing!)\cr
+  \code{sto.xyz}\tab voxel to mm transformation (R style indexing!)\cr
+  \code{sto.ijk}\tab mm to voxel transformation (R style indexing!)\cr
+  \code{qto_xyz}\tab voxel to mm transformation (C style indexing!)\cr 
+  \code{qto_ijk}\tab mm to voxel transformation (C style indexing!)\cr
+  \code{sto_xyz}\tab voxel to mm transformation (C style indexing!)\cr
+  \code{sto_ijk}\tab mm to voxel transformation (C style indexing!)\cr
   \code{toffset}\tab \cr
   \code{descrip}\tab description (up to 80 characters)\cr
   \code{fname}\tab header filename (store image information)\cr
   \code{iname}\tab image filename (store image data)\cr
-  \code{slice.duration}\tab Time for 1 slice\cr
+  \code{slice.duration}\tab time for 1 slice\cr
   \code{qform.code}\tab \code{NIFTI.XFORM.UNKNOWN} (0) \cr
                    \tab \code{NIFTI.XFORM.SCANNER.ANAT} (1) \cr
                    \tab \code{NIFTI.XFORM.ALIGNED.ANAT} (2) \cr
@@ -59,8 +63,9 @@
   \code{qoffset.y}\tab \cr
   \code{qoffset.z}\tab \cr
   \code{qfac}\tab \cr
-  \code{pixdim}\tab Grid spacings. \cr
-  \code{datatype}\tab Defines data type! \cr
+  \code{dim}\tab image volume size in voxel \cr
+  \code{pixdim}\tab grid spacings. \cr
+  \code{datatype}\tab data type \cr
   \code{nifti.type}\tab \code{NIFTI.FTYPE.ANALYZE} (0) \cr
                    \tab \code{NIFTI.FTYPE.NIFTI1.1}(1) \cr
                    \tab \code{NIFTI.FTYPE.NIFTI1.2} (2) \cr
