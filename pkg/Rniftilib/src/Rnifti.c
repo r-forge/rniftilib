@@ -252,6 +252,13 @@ SEXP Rnifti_image_alloc_data(SEXP nim)
   return int_to_SEXP(ntot);
 }
 
+SEXP Rnifti_image_unload(SEXP nim)
+{
+	nifti_image *pnim=SEXP2NIFTI(nim);
+	nifti_image_unload( pnim );
+	return nim;
+}
+
 SEXP Rnifti_set_filenames(SEXP nim, SEXP prefix, SEXP check, SEXP set_byte_order)
 {
   SEXP ret_val=int_to_SEXP(1);
@@ -409,7 +416,7 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 		 else
 		    error("Length of vector not compatible with the number of dimensions.\n");
 		 UNPROTECT(1);
-		 break;	  			   	  
+		 break;   
 	default:
 	  error("Rnifti_image_setattribute: unknown attribute\n"); 
 	  break;
@@ -660,7 +667,7 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	  }
 	  else
 	    error("Rnifti_image_getattribute: incorrect number of dimensions in dim[0]!\n");
-	  break;
+	  break;    
 	default:
 	  error("Rnifti_image_getattribute: unknown symbol\n"); break;
 	  
@@ -1467,3 +1474,15 @@ SEXP Rnifti_disp_lib_version(void)
 		
 	return ret_val;
 }
+
+SEXP Rnifti_units_string(SEXP value)
+{
+	SEXP ret_val=R_NilValue;
+	PROTECT(value=AS_INTEGER(value));
+	if(IS_INTEGER(value) && LENGTH(value)==1)
+	  ret_val = Rnifti_pchar_SEXP(nifti_units_string(INTEGER_POINTER(value)[0]));
+	UNPROTECT(1);
+	return ret_val;	
+}
+
+

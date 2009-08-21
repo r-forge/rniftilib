@@ -13,6 +13,16 @@ nifti.image.alloc.data <- function(nim)
   .Call("Rnifti_image_alloc_data", nim, PACKAGE="Rniftilib")
 }
 
+nifti.image.unload <- function(nim)
+{
+  .Call("Rnifti_image_unload", nim, PACKAGE="Rniftilib")
+}
+
+nifti.image.free <- function(nim)
+{
+  .Call("Rnifti_image_free", nim, PACKAGE="Rniftilib")
+}
+
 nifti.image.copy.info <- function(nim)
 {
   .Call("Rnifti_image_copy_info", nim, PACKAGE="Rniftilib")
@@ -134,4 +144,9 @@ nifti.compiled.with.zlib <- function()
 nifti.disp.lib.version <- function()
 {
   .Call("Rnifti_disp_lib_version", PACKAGE="Rniftilib")
+}
+
+nifti.units.string <- function(value)
+{
+  .Call("Rnifti_units_string", value, PACKAGE="Rniftilib")
 }

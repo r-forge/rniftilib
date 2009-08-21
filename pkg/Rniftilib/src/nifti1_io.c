@@ -2254,11 +2254,13 @@ int nifti_swap_as_analyze( nifti_analyze75 * h )
    nifti_swap_4bytes(1, &h->glmax);
    nifti_swap_4bytes(1, &h->glmin);
 
+   nifti_swap_2bytes(5, &h->originator); /* used by SPM99,SPM2 and SPM5 to store origin */
+   
    nifti_swap_4bytes(1, &h->views);
    nifti_swap_4bytes(1, &h->vols_added);
    nifti_swap_4bytes(1, &h->start_field);
-   nifti_swap_4bytes(1, &h->field_skip);
-
+   nifti_swap_4bytes(1, &h->field_skip);  
+   
    nifti_swap_4bytes(1, &h->omax);
    nifti_swap_4bytes(1, &h->omin);
    nifti_swap_4bytes(1, &h->smax);
@@ -3383,20 +3385,24 @@ nifti_image* nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
   /**- compute qto_xyz transformation from pixel indexes (i,j,k) to (x,y,z) */
   
   if( !is_nifti || nhdr.qform_code <= 0 ){
-    /**- if not nifti or qform_code <= 0, use grid spacing for qto_xyz */
-    
+	  
+    /**- if not nifti or qform_code <= 0, use grid spacing for qto_xyz */    
     nim->qto_xyz.m[0][0] = nim->dx ;  /* grid spacings */
     nim->qto_xyz.m[1][1] = nim->dy ;  /* along diagonal */
     nim->qto_xyz.m[2][2] = nim->dz ;
     
-    /* off diagonal is zero */
+    /* off diagonal is zero */    
+    nim->qto_xyz.m[0][1] = nim->qto_xyz.m[0][2] = 0.0;
+    nim->qto_xyz.m[1][0] = nim->qto_xyz.m[1][2] = 0.0;
+    nim->qto_xyz.m[2][0] = nim->qto_xyz.m[2][1] = 0.0;
     
-    nim->qto_xyz.m[0][1]=nim->qto_xyz.m[0][2]=nim->qto_xyz.m[0][3] = 0.0;
-    nim->qto_xyz.m[1][0]=nim->qto_xyz.m[1][2]=nim->qto_xyz.m[1][3] = 0.0;
-    nim->qto_xyz.m[2][0]=nim->qto_xyz.m[2][1]=nim->qto_xyz.m[2][3] = 0.0;
+    /* the originator field is used by SPM99, SPM2 and SPM5 to set the origin */
+    short *originator = (short*)((char *)(&nhdr.qform_code)+1); 
+    nim->qto_xyz.m[0][3] = -nim->dx*(float)originator[0];
+    nim->qto_xyz.m[1][3] = -nim->dy*(float)originator[1];
+    nim->qto_xyz.m[2][3] = -nim->dz*(float)originator[2];
     
-    /* last row is always [ 0 0 0 1 ] */
-    
+    /* last row is always [ 0 0 0 1 ] */    
     nim->qto_xyz.m[3][0]=nim->qto_xyz.m[3][1]=nim->qto_xyz.m[3][2] = 0.0;
     nim->qto_xyz.m[3][3]= 1.0 ;
     

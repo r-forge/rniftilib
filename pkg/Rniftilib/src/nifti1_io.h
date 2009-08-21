@@ -172,7 +172,7 @@ typedef struct {                /*!< Image storage struct **/
   nifti1_extension * ext_list ; /*!< array of extension structs (with data) */
   analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient */
 
-} nifti_image ;
+} __attribute__((__packed__)) nifti_image ;
 
 
 
@@ -243,7 +243,7 @@ typedef struct {
        int field_skip;                  /* 180 + 4                        */
        int omax, omin;                  /* 184 + 8                        */
        int smax, smin;                  /* 192 + 8              200 bytes */
-} nifti_analyze75;                                   /* total:  348 bytes */
+} __attribute__((__packed__)) nifti_analyze75;                                   /* total:  348 bytes */
 
 
 /*****************************************************************************/

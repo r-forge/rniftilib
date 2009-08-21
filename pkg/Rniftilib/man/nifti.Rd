@@ -30,7 +30,7 @@
 }
 \arguments{
   \item{x}{NIfTI image object (class nifti)}
-  \item{sym}{  \tabular{rc}{
+  \item{sym}{  \tabular{rl}{
   \code{qto.xyz}\tab voxel to mm transformation (R style indexing!)\cr 
   \code{qto.ijk}\tab mm to voxel transformation (R style indexing!)\cr
   \code{sto.xyz}\tab voxel to mm transformation (R style indexing!)\cr

@@ -1,7 +1,7 @@
 Package: Rniftilib
 Version: 0.0-27
 Date: 2009-08-03
-Title: Rniftilib 0.0-27
+Title: Rniftilib 0.0-28
 Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 1.8.0)
