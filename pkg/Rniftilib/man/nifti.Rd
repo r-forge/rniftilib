@@ -12,7 +12,7 @@
 \description{
   A NIfTI object contains the image description and data of an image
   volume.
-  The voxels can be accessed by the bracket [dim1,dim2,dim3,...,dim7] operator.
+  Voxels can be accessed by the bracket [dim1,dim2,dim3,...,dim7] operator.
 }
 \usage{
   \method{[}{nifti}(x,
@@ -65,11 +65,12 @@
   \code{qfac}\tab \cr
   \code{dim}\tab image volume size in voxel \cr
   \code{pixdim}\tab grid spacings. \cr
-  \code{datatype}\tab data type \cr
-  \code{nifti.type}\tab \code{NIFTI.FTYPE.ANALYZE} (0) \cr
-                   \tab \code{NIFTI.FTYPE.NIFTI1.1}(1) \cr
-                   \tab \code{NIFTI.FTYPE.NIFTI1.2} (2) \cr
-                   \tab \code{NIFTI.FTYPE.ASCII} (3) \cr
+  \code{datatype}\tab data type (set also field \code{nbyper})\cr
+  \code{nbyper}\tab bytes per voxel, matches datatype (read only) \cr
+  \code{nifti.type}\tab \code{NIFTI.FTYPE.ANALYZE} (0) (2 files) \cr
+                   \tab \code{NIFTI.FTYPE.NIFTI1.1}(1) (1 file) \cr
+                   \tab \code{NIFTI.FTYPE.NIFTI1.2} (2) (2 files) \cr
+                   \tab \code{NIFTI.FTYPE.ASCII} (3) (1 file) \cr
   \code{sizeof_hdr}\tab MUST be 348\cr
   \code{scl.slope}\tab nifti1: Data scaling: slope.  analyze 7.5: float funused1 \cr
   \code{scl.inter}\tab nifti1: Data scaling: offset. analyze 7.5: float funused2 \cr

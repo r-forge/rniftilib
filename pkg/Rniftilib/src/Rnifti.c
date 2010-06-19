@@ -10,6 +10,8 @@ extern char *gni_version;
 SEXP NIFTI_type_tag;
 #define SEXP2NIFTI(nim) ((TYPEOF(nim) != EXTPTRSXP || R_ExternalPtrTag(nim) != NIFTI_type_tag)?NULL:(nifti_image *)R_ExternalPtrAddr(nim))
 
+SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value);
+
 /*
   library(Rniftilib)
   a=nifti_image_read("C:\\ffmri_L2409-00001-00001-0.img")
@@ -55,6 +57,7 @@ char *Rnifti_attributes[] =
     "sto_xyz", 			/* 26 */
     "sto_ijk", 			/* 27 */    
     "dim",              /* 28 */
+    "nbyper",           /* 29 */
     NULL
   };
 
@@ -376,7 +379,8 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 	case 21: /* datatype */
 	  if(IS_NUMERIC(value))
 	    {
-	      SEXP_to_int(value,&pnim->datatype);
+	      /*SEXP_to_int(value,&pnim->datatype);*/
+	      Rnifti_image_setdatatype(nim, value);
 	    }
 	  else
 	    error("Only nummeric values are allowed to set nifti_datatype.\n");
@@ -663,11 +667,14 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	    {
 		  INTEGER_POINTER(ret_val)[iIndex]=pnim->dim[iIndex+1];
 	    }
-		UNPROTECT(1);
+	    UNPROTECT(1);
 	  }
 	  else
 	    error("Rnifti_image_getattribute: incorrect number of dimensions in dim[0]!\n");
-	  break;    
+	  break;  
+	case 29: /* nbyper */
+	  return int_to_SEXP(pnim->nbyper);
+	  break;	  
 	default:
 	  error("Rnifti_image_getattribute: unknown symbol\n"); break;
 	  
@@ -1145,8 +1152,7 @@ SEXP Rnifti_image_printinfo(SEXP nim)
 	  break;
 	case  DT_RGB:              /*128      RGB triple (24 bits/voxel)   */
 	  Rprintf(" data type: 128 RGB triple (24 bits/voxel)\n");
-	  break;
-	  
+	  break; 
 	  /*------------------- new codes for NIFTI ---*/
 	case  DT_INT8:             /* 256      signed char (8 bits)         */
 	  Rprintf(" data type: 256 signed char (8 bits)\n"); 
@@ -1172,6 +1178,9 @@ SEXP Rnifti_image_printinfo(SEXP nim)
 	case  DT_COMPLEX256:       /*2048      long double pair (256 bits)  */
 	  Rprintf(" data type: 2048 long double pair (256 bits)\n");
 	  break;
+	case  DT_RGBA:             /*2304      RGBA  (32 bits/voxel)   */
+	  Rprintf(" data type: 2304 RGBA (32 bits/voxel)\n");
+	  break; 
 	default:              	   /*         what it says, dude           */
 	  Rprintf(" data type: %u what it says, dude\n",pnim->datatype); 
 	  break;
@@ -1443,6 +1452,28 @@ SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value)
   if(pnim!=NULL)
     {
       PROTECT(value = AS_INTEGER(value));
+      switch (INTEGER(value)[0])
+        {
+	case DT_NONE:          pnim->nbyper=0; break; 
+	case DT_BINARY:        pnim->nbyper=0; break; 
+	case DT_UNSIGNED_CHAR: pnim->nbyper=1; break;
+	case DT_INT8:          pnim->nbyper=1; break;
+	case DT_UINT16:        pnim->nbyper=2; break;
+	case DT_SIGNED_SHORT:  pnim->nbyper=2; break;
+	case DT_SIGNED_INT:    pnim->nbyper=4; break;
+	case DT_UINT32:        pnim->nbyper=4; break;
+	case DT_INT64: 	       pnim->nbyper=8; break;
+	case DT_UINT64:	       pnim->nbyper=8; break;
+	case DT_FLOAT:         pnim->nbyper=4; break;
+	case DT_FLOAT128:      pnim->nbyper=16; break;
+	case DT_DOUBLE:        pnim->nbyper=8; break;
+	case DT_COMPLEX:       pnim->nbyper=8; break;
+	case DT_COMPLEX128:    pnim->nbyper=16; break;
+	case DT_COMPLEX256:    pnim->nbyper=32; break;
+	case DT_RGB: 	       pnim->nbyper=3; break;
+	case DT_RGBA32:        pnim->nbyper=4; break;
+        default: error("unsupported or unknown data type"); break;
+        }
       pnim->datatype=INTEGER(value)[0];
       UNPROTECT(1);
     }
