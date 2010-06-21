@@ -44,7 +44,7 @@ nifti.image.setdatatype(nim, value)
 \code{DT_COMPLEX256}   \tab 2048 \tab long double pair (256 bits) \cr
 \code{DT_RGBA32}       \tab 2304 \tab 4 byte RGBA (32 bits/voxel) \cr
 \bold{new codes for NIFTI} \tab \tab \cr
-\code{NIFTI_TYPE_UINT8}      \tab ) \tab unsigned char \cr
+\code{NIFTI_TYPE_UINT8}      \tab 2 \tab unsigned char \cr
 \code{NIFTI_TYPE_INT16}      \tab 4 \tab signed short \cr 
 \code{NIFTI_TYPE_INT32}      \tab 8 \tab signed int \cr
 \code{NIFTI_TYPE_FLOAT32}    \tab 16 \tab 32 bit float \cr
