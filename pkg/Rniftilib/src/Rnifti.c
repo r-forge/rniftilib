@@ -1126,65 +1126,66 @@ SEXP Rnifti_image_printinfo(SEXP nim)
 	      break;	
 	    }
 	}
-      switch(pnim->datatype)
+      Rprintf("data type: %s (%d)\n",nifti_datatype_to_string(pnim->datatype),pnim->datatype); 
+      /*switch(pnim->datatype)
 	{
-	  /*--- the original ANALYZE 7.5 type codes ---*/
-	case  DT_BINARY:           /*  1      binary (1 bit/voxel)         */
+	  //--- the original ANALYZE 7.5 type codes ---
+	case  DT_BINARY:           //  1      binary (1 bit/voxel)         
 	  Rprintf(" data type: 1 binary (1 bit/voxel)\n"); 
 	  break;
-	case  DT_UNSIGNED_CHAR:    /*  2      unsigned char (8 bits/voxel) */
+	case  DT_UNSIGNED_CHAR:    //  2      unsigned char (8 bits/voxel) 
 	  Rprintf(" data type: 2 unsigned char (8 bits/voxel)\n"); 
 	  break;
-	case  DT_SIGNED_SHORT:     /*  4      signed short (16 bits/voxel) */
+	case  DT_SIGNED_SHORT:     //  4      signed short (16 bits/voxel) 
 	  Rprintf(" data type: 4 signed short (16 bits/voxel)\n"); 
 	  break;
-	case  DT_SIGNED_INT:       /*  8      signed int (32 bits/voxel)   */
+	case  DT_SIGNED_INT:       //  8      signed int (32 bits/voxel)   
 	  Rprintf(" data type: 8 signed int (32 bits/voxel)\n"); 
 	  break;
-	case  DT_FLOAT:            /* 16      float (32 bits/voxel)        */
+	case  DT_FLOAT:            // 16      float (32 bits/voxel)        
 	  Rprintf(" data type: 16 float (32 bits/voxel)\n"); 
 	  break;
-	case  DT_COMPLEX:          /* 32      complex (64 bits/voxel)      */
+	case  DT_COMPLEX:          // 32      complex (64 bits/voxel)      
 	  Rprintf(" data type: 32 complex (64 bits/voxel)\n"); 
 	  break;
-	case  DT_DOUBLE:           /* 64      double (64 bits/voxel)       */
+	case  DT_DOUBLE:           // 64      double (64 bits/voxel)       
 	  Rprintf(" data type: 64 double (64 bits/voxel) \n"); 
 	  break;
-	case  DT_RGB:              /*128      RGB triple (24 bits/voxel)   */
+	case  DT_RGB:              //128      RGB triple (24 bits/voxel)   
 	  Rprintf(" data type: 128 RGB triple (24 bits/voxel)\n");
 	  break; 
-	  /*------------------- new codes for NIFTI ---*/
-	case  DT_INT8:             /* 256      signed char (8 bits)         */
+	  //------------------- new codes for NIFTI ---
+	case  DT_INT8:             // 256      signed char (8 bits)         
 	  Rprintf(" data type: 256 signed char (8 bits)\n"); 
 	  break;
-	case  DT_UINT16:           /* 512      unsigned short (16 bits)     */
+	case  DT_UINT16:           // 512      unsigned short (16 bits)     
 	  Rprintf(" data type: 512 unsigned short (16 bits)\n"); 
 	  break;
-	case  DT_UINT32:           /* 768      unsigned int (32 bits)       */
+	case  DT_UINT32:           // 768      unsigned int (32 bits)       
 	  Rprintf(" data type: 768 unsigned int (32 bits)\n"); 
 	  break;
-	case  DT_INT64:            /*1024      long long (64 bits)          */
+	case  DT_INT64:            //1024      long long (64 bits)          
 	  Rprintf(" data type: 1024 long long (64 bits)\n"); 
 	  break;
-	case  DT_UINT64:           /*1280      unsigned long long (64 bits) */
+	case  DT_UINT64:           //1280      unsigned long long (64 bits) 
 	  Rprintf(" data type: 1280 unsigned long long (64 bits)\n");
 	  break;
-	case  DT_FLOAT128:         /*1536      long double (128 bits)       */
+	case  DT_FLOAT128:         //1536      long double (128 bits)       
 	  Rprintf(" data type: 1536 long double (128 bits)\n");
 	  break;
-	case  DT_COMPLEX128:       /*1792      double pair (128 bits)       */
+	case  DT_COMPLEX128:       //1792      double pair (128 bits)       
 	  Rprintf(" data type: 1792 double pair (128 bits)\n");
 	  break;
-	case  DT_COMPLEX256:       /*2048      long double pair (256 bits)  */
+	case  DT_COMPLEX256:       //2048      long double pair (256 bits)  
 	  Rprintf(" data type: 2048 long double pair (256 bits)\n");
 	  break;
-	case  DT_RGBA:             /*2304      RGBA  (32 bits/voxel)   */
-	  Rprintf(" data type: 2304 RGBA (32 bits/voxel)\n");
+	case  DT_RGBA32:           //2304      RGBA  (32 bits/voxel)   
+	  Rprintf(" data type: 2304 RGBA32 (32 bits/voxel)\n");
 	  break; 
-	default:              	   /*         what it says, dude           */
+	default:              	   //         what it says, dude           
 	  Rprintf(" data type: %u what it says, dude\n",pnim->datatype); 
 	  break;
-	}
+	}*/
     }
   Rprintf("intent: %s\n",nifti_intent_string(pnim->intent_code));
   Rprintf("attributes: (accessible via $ operator)\n");
@@ -1451,8 +1452,21 @@ SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value)
   
   if(pnim!=NULL)
     {
-      PROTECT(value = AS_INTEGER(value));
-      switch (INTEGER(value)[0])
+      int itype=DT_UNKNOWN;
+      if(IS_NUMERIC(value) || IS_INTEGER(value))
+      {
+        PROTECT(value = AS_INTEGER(value));
+        itype=INTEGER(value)[0];
+        UNPROTECT(1);
+      }
+      else if(isString(value) || length(value) != 1)
+      {
+         const char *pctype  = CHAR(STRING_ELT(value , 0));
+         itype=nifti_datatype_from_string(pctype);         
+      }
+      else
+         warning("Unsupported or unknown second argument (type set to DT_UNKNOWN)!");      
+      switch(itype)
         {
 	case DT_NONE:          pnim->nbyper=0; break; 
 	case DT_BINARY:        pnim->nbyper=0; break; 
@@ -1472,10 +1486,9 @@ SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value)
 	case DT_COMPLEX256:    pnim->nbyper=32; break;
 	case DT_RGB: 	       pnim->nbyper=3; break;
 	case DT_RGBA32:        pnim->nbyper=4; break;
-        default: error("unsupported or unknown data type"); break;
+        default: warning("Unsupported or unknown data type!"); break;
         }
-      pnim->datatype=INTEGER(value)[0];
-      UNPROTECT(1);
+      pnim->datatype=itype;     
     }
   return nim;
 }
