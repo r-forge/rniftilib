@@ -26,26 +26,31 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <!-- R-Forge Logo -->
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="/"><img src="<?php echo $themeroot; ?>/images/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+<a href="/"><img src="Rniftilib_logo.png" border="0" alt="Rniftilib Logo" /> </a> </td> </tr>
 </table>
-
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
 
-<?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
-$contents = '';
-while (!feof($handle)) {
-	$contents .= fread($handle, 8192);
-}
-fclose($handle);
-echo $contents; } ?>
+<h1>Welcome to the Rniftilib project!</h1>
+<p>
+<a href="http://r-forge.r-project.org/projects/rniftilib/">Rniftilib</a> provides an R-interface to the NIfTI reference implementation the <a href="http://niftilib.sourceforge.net/">niftilib C-library</a>.
+</p>
+
+<p>
+The NIfTI reference implementation is a library for reading and writing files in the nifti-1 data format. 
+The nifti-1 file format is a binary file format for storing medical image data and corresponding meta information,
+e.g. transformation matrices, data type, image modality.
+The image format is often used for analyzing magnetic resonance image (MRI) and functional MRI (fMRI) brain images.
+</p>
+<p>
+Additional information about the reference implementation  and the <a href="http://nifti.nimh.nih.gov/nifti-1">NIfTI data format</a> can be found on the 
+<a href="http://nifti.nimh.nih.gov">Neuroimaging Informatics Technology Initiative</a> homepage.
+</p>
 
 <!-- end of project description -->
 
-<p> No content added. </p>
-
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
-
+<p>Further information as well as source and binary packages can be found on the <a href="http://r-forge.r-project.org/projects/rniftilib/">project summary page</a>.</p>
+<img src="nifti_iconBlue_small.png" border="0" alt="* " />
 </body>
 </html>
