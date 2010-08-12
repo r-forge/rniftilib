@@ -145,7 +145,7 @@ void Rnifti_SEXP_float(SEXP val_sexp, float *val)
   UNPROTECT(1);
 }
 
-SEXP int_to_SEXP(int val)
+SEXP Rnifti_int_SEXP(int val)
 {
   SEXP ret_val;
   PROTECT(ret_val=NEW_INTEGER(1));
@@ -154,10 +154,17 @@ SEXP int_to_SEXP(int val)
   return ret_val;
 }
 
-void SEXP_to_int(SEXP val_sexp, int *val)
+void Rnifti_SEXP_int(SEXP val_sexp, int *val)
 {
   PROTECT(val_sexp=AS_INTEGER(val_sexp));
   *val=(int)INTEGER_POINTER(val_sexp)[0];
+  UNPROTECT(1);
+}
+
+void Rnifti_SEXP_short(SEXP val_sexp, short *val)
+{
+  PROTECT(val_sexp=AS_INTEGER(val_sexp));
+  *val=(short)INTEGER_POINTER(val_sexp)[0];
   UNPROTECT(1);
 }
 
@@ -252,7 +259,7 @@ SEXP Rnifti_image_alloc_data(SEXP nim)
 	    }
 	}
     }
-  return int_to_SEXP(ntot);
+  return Rnifti_int_SEXP(ntot);
 }
 
 SEXP Rnifti_image_unload(SEXP nim)
@@ -264,7 +271,7 @@ SEXP Rnifti_image_unload(SEXP nim)
 
 SEXP Rnifti_set_filenames(SEXP nim, SEXP prefix, SEXP check, SEXP set_byte_order)
 {
-  SEXP ret_val=int_to_SEXP(1);
+  SEXP ret_val=Rnifti_int_SEXP(1);
   nifti_image *pnim=SEXP2NIFTI(nim);
 
   if(pnim!=NULL)
@@ -274,9 +281,9 @@ SEXP Rnifti_set_filenames(SEXP nim, SEXP prefix, SEXP check, SEXP set_byte_order
       char prefix_buffer[500];
 
       Rnifti_SEXP_pchar(prefix, prefix_buffer, 500);
-      SEXP_to_int(check, &icheck);
-      SEXP_to_int(set_byte_order, &iset_byte_order);
-      ret_val = int_to_SEXP(nifti_set_filenames( pnim, prefix_buffer, icheck, iset_byte_order));
+      Rnifti_SEXP_int(check, &icheck);
+      Rnifti_SEXP_int(set_byte_order, &iset_byte_order);
+      ret_val = Rnifti_int_SEXP(nifti_set_filenames( pnim, prefix_buffer, icheck, iset_byte_order));
     }
   return ret_val;
 }
@@ -340,6 +347,10 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 	  warning("Can not set this attribute directly! Please use the nifti.set.filenames function.\n"); break;
 	case 8: /*slice_duration*/
 	  Rnifti_SEXP_float(value,&(pnim->slice_duration)); break;
+	case 9: /* qform.code */
+	  Rnifti_SEXP_int(value, &(pnim->qform_code)); break;
+	case 10: /* sform.code */
+	  Rnifti_SEXP_int(value, &(pnim->sform_code)); break;
 	case 11: /* quatern_b 11 */
 	  Rnifti_SEXP_float(value,&(pnim->quatern_b)); break;
 	case 12: /* quatern_c 12 */
@@ -371,7 +382,7 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 	case 19: /* nifti_type 19 */
 	  if(IS_NUMERIC(value))
 	    {
-	      SEXP_to_int(value,&pnim->nifti_type);
+		  Rnifti_SEXP_int(value,&pnim->nifti_type);
 	    }
 	  else
 	    error("Only nummeric values are allowed to set nifti_type.\n");
@@ -647,11 +658,11 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	case 20: /* sizeof_hdr 20 */
 	  {
 	    struct nifti_1_header hdr = nifti_convert_nim2nhdr(pnim);
-	    return int_to_SEXP(hdr.sizeof_hdr);
+	    return Rnifti_int_SEXP(hdr.sizeof_hdr);
 	  }
 	  break;
 	case 21: /* datatype */
-	  return int_to_SEXP(pnim->datatype);
+	  return Rnifti_int_SEXP(pnim->datatype);
 	  break;
 	case 22: /* scl_slope nifti1: Data scaling: slope.  analyze 7.5: float funused1 */
 	  return Rnifti_float_SEXP(pnim->scl_slope);
@@ -673,7 +684,7 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	    error("Rnifti_image_getattribute: incorrect number of dimensions in dim[0]!\n");
 	  break;
 	case 29: /* nbyper */
-	  return int_to_SEXP(pnim->nbyper);
+	  return Rnifti_int_SEXP(pnim->nbyper);
 	  break;
 	default:
 	  error("Rnifti_image_getattribute: unknown symbol\n"); break;
