@@ -29,10 +29,10 @@ nifti.set.filenames(nim, prefix, check=1, set_byte_order=1)
   \code{\link{nifti.image.new}}
 }
 \examples{
-nifti.img <- nifti.image.new()
-nifti.set.filenames(nifti.img, "testvolume")
+nim <- nifti.image.new()
+nifti.set.filenames(nim, "testvolume")
 # show the result
-nifti.img$fname
-nifti.img$iname
+nim$fname
+nim$iname
 }
 \keyword{manip}

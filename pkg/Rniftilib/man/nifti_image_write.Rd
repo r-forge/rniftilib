@@ -25,8 +25,8 @@ nifti.image.write(nim)
 
 \examples{
 \dontrun{
-nifti.img <- nifti.image.read(file.choose())
-nifti.image.write(nifti.img)
+nim <- nifti.image.read(file.choose())
+nifti.image.write(nim)
 }
 }
 \keyword{IO}

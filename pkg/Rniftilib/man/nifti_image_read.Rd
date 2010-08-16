@@ -32,19 +32,19 @@ If \code{read_data=0} only the header info is loaded.
 }
 \examples{
 \dontrun{
-nifti.img <- nifti.image.read(file.choose())
+nim <- nifti.image.read(file.choose())
 # access to attributes...
-nifti.img$qto.xyz        # voxel to mm transformation matrix (q-form)
-nifti.img$qto.ijk        # mm to voxel transformation matrix (q-form)
-nifti.img$sto.xyz        # voxel to mm transformation matrix (s-form)
-nifti.img$sto.ijk        # mm to voxel transformation matrix (s-form)
-nifti.img$toffset        #
-nifti.img$descrip        # description
-nifti.img$fname          # header filename (store image information)
-nifti.img$iname          # image filename (store image data)
-nifti.img$slice.duration
+nim$qto.xyz        # voxel to mm transformation matrix (q-form)
+nim$qto.ijk        # mm to voxel transformation matrix (q-form)
+nim$sto.xyz        # voxel to mm transformation matrix (s-form)
+nim$sto.ijk        # mm to voxel transformation matrix (s-form)
+nim$toffset        #
+nim$descrip        # description
+nim$fname          # header filename (store image information)
+nim$iname          # image filename (store image data)
+nim$slice.duration
 # access to voxel values...
-nifti.img[10,11,12]      # voxel value at x=10, y=11, z=12
+nim[10,11,12]      # voxel value at x=10, y=11, z=12
 }
 }
 \keyword{IO}

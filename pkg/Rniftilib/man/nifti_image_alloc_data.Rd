@@ -28,8 +28,8 @@ nifti.image.alloc.data(nim)
 }
 
 \examples{
-nifti.img=nifti.image.new()
-no.of.bytes=nifti.image.alloc.data(nifti.img)
+nim=nifti.image.new()
+no.of.bytes=nifti.image.alloc.data(nim)
 }
 \keyword{manip}
 \keyword{data}

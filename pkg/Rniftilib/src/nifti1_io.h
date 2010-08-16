@@ -17,7 +17,7 @@
 #endif
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "../config.h"
 #endif
 
 #include "nifti1.h"                  /*** NIFTI-1 header specification ***/

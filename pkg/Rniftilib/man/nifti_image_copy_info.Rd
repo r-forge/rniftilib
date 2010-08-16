@@ -29,8 +29,8 @@ nifti.image.copy.info(nim)
 
 \examples{
 \dontrun{
-nifti.img1 <- nifti.image.read(file.choose())
-nifti.img2 <- nifti.image.copy.info(nifti.img1)
+nim <- nifti.image.read(file.choose())
+nim_copy <- nifti.image.copy.info(nim)
 }
 }
 \keyword{manip}

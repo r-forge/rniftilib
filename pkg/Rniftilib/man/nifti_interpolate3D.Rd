@@ -30,12 +30,12 @@ Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 
 \examples{
 \dontrun{
-nifti.img <- nifti.image.read(file.choose())
-plot(c(nifti.interpolate3d(nifti.img,100,100,3),
-       nifti.interpolate3d(nifti.img,100.25,100,3),
-       nifti.interpolate3d(nifti.img,100.5,100,3),
-       nifti.interpolate3d(nifti.img,100.75,100,3),
-       nifti.interpolate3d(nifti.img,101,100,3)),
+nim <- nifti.image.read(file.choose())
+plot(c(nifti.interpolate3d(nim,100,100,3),
+       nifti.interpolate3d(nim,100.25,100,3),
+       nifti.interpolate3d(nim,100.5,100,3),
+       nifti.interpolate3d(nim,100.75,100,3),
+       nifti.interpolate3d(nim,101,100,3)),
        xlab="position x", ylab="interpolation")
 }
 }
