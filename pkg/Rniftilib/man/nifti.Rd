@@ -67,13 +67,35 @@
   \code{pixdim}\tab grid spacings. \cr
   \code{datatype}\tab data type (set also field \code{nbyper})\cr
   \code{nbyper}\tab bytes per voxel, matches datatype (read only) \cr
-  \code{nifti.type}\tab \code{NIFTI.FTYPE.ANALYZE} (0) (2 files) \cr
-                   \tab \code{NIFTI.FTYPE.NIFTI1.1}(1) (1 file) \cr
-                   \tab \code{NIFTI.FTYPE.NIFTI1.2} (2) (2 files) \cr
-                   \tab \code{NIFTI.FTYPE.ASCII} (3) (1 file) \cr
+  \code{nifti.type}\tab \code{NIFTI.FTYPE.ANALYZE} (0)  : .hdr + .img  files \cr
+                   \tab \code{NIFTI.FTYPE.NIFTI1.1}(1)  : .nii file \cr
+                   \tab \code{NIFTI.FTYPE.NIFTI1.2} (2) : .hdr + .img files \cr
+                   \tab \code{NIFTI.FTYPE.ASCII} (3)    : ? \cr
   \code{sizeof_hdr}\tab MUST be 348\cr
-  \code{scl.slope}\tab nifti1: Data scaling: slope.  analyze 7.5: float funused1 \cr
-  \code{scl.inter}\tab nifti1: Data scaling: offset. analyze 7.5: float funused2 \cr
+  \code{scl.slope} \tab nifti1: Data scaling: slope.  analyze 7.5: float funused1 \cr
+  \code{scl.inter} \tab nifti1: Data scaling: offset. analyze 7.5: float funused2 \cr
+  \code{xyz_units} \tab \code{NIFTI_UNITS_UNKNOWN} ""     (0) \cr
+                   \tab \code{NIFTI_UNITS_METER}  "m"     (1) \cr
+                   \tab \code{NIFTI_UNITS_MM}     "mm"    (2) \cr     
+                   \tab \code{NIFTI_UNITS_MICRON} "um"    (3) \cr
+                   \tab \code{NIFTI_UNITS_SEC}    "s"     (8) \cr
+                   \tab \code{NIFTI_UNITS_MSEC}   "ms"    (16) \cr
+                   \tab \code{NIFTI_UNITS_USEC}   "us"    (24) \cr
+                   \tab \code{NIFTI_UNITS_HZ}     "Hz"    (32) \cr
+                   \tab \code{NIFTI_UNITS_PPM}    "ppm"   (40) \cr
+                   \tab \code{NIFTI_UNITS_RADS}   "rad/s" (48) \cr
+                   \tab see also \code{\link{nifti.units.string}}\cr                   
+  \code{time_units}\tab \code{NIFTI_UNITS_UNKNOWN} ""     (0) \cr
+                   \tab \code{NIFTI_UNITS_METER}  "m"     (1) \cr
+                   \tab \code{NIFTI_UNITS_MM}     "mm"    (2) \cr     
+                   \tab \code{NIFTI_UNITS_MICRON} "um"    (3) \cr
+                   \tab \code{NIFTI_UNITS_SEC}    "s"     (8) \cr
+                   \tab \code{NIFTI_UNITS_MSEC}   "ms"    (16) \cr
+                   \tab \code{NIFTI_UNITS_USEC}   "us"    (24) \cr
+                   \tab \code{NIFTI_UNITS_HZ}     "Hz"    (32) \cr
+                   \tab \code{NIFTI_UNITS_PPM}    "ppm"   (40) \cr
+                   \tab \code{NIFTI_UNITS_RADS}   "rad/s" (48) \cr
+                   \tab see also \code{\link{nifti.units.string}}
   }}
   \item{dim1}{vector of voxel indices (x)}
   \item{dim2}{vector of voxel indices (y)}

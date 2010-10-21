@@ -58,6 +58,8 @@ char *Rnifti_attributes[] =
     "sto_ijk", 			/* 27 */
     "dim",              /* 28 */
     "nbyper",           /* 29 */
+    "xyz_units",	    /* 30 */
+    "time_units",       /* 31 */
     NULL
   };
 
@@ -432,6 +434,26 @@ SEXP Rnifti_image_setattribute(SEXP nim, SEXP sym, SEXP value)
 		    error("Length of vector not compatible with the number of dimensions.\n");
 		 UNPROTECT(1);
 		 break;
+	case 30: /* xyz_units */
+		if((IS_NUMERIC(value) || IS_INTEGER(value)) && length(value)==1)
+		{
+		  PROTECT(value = AS_INTEGER(value));
+		  pnim->xyz_units=INTEGER_POINTER(value)[0];
+		  UNPROTECT(1);
+		}
+		else
+		  error("Length of input vector not compatible with xyz_units.\n");
+		break;
+	case 31: /* time_units */
+		if((IS_NUMERIC(value) || IS_INTEGER(value)) && length(value)==1)
+		{
+		  PROTECT(value = AS_INTEGER(value));
+		  pnim->time_units=INTEGER_POINTER(value)[0];
+		  UNPROTECT(1);
+		}
+		else
+		  error("Length of input vector not compatible with time_units.\n");
+		break;
 	default:
 	  error("Rnifti_image_setattribute: unknown attribute\n");
 	  break;
@@ -686,6 +708,12 @@ SEXP Rnifti_image_getattribute(SEXP nim, SEXP sym)
 	case 29: /* nbyper */
 	  return Rnifti_int_SEXP(pnim->nbyper);
 	  break;
+	case 30: /* xyz_units */
+		return Rnifti_int_SEXP(pnim->xyz_units);
+	    break;
+	case 31: /* time_units */
+		return Rnifti_int_SEXP(pnim->time_units);
+	    break;
 	default:
 	  error("Rnifti_image_getattribute: unknown symbol\n"); break;
 
