@@ -48,6 +48,7 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include "../config.h"
 
 /* include optional check for HAVE_FDOPEN here, from deleted config.h:
 

@@ -271,6 +271,64 @@ SEXP Rnifti_image_unload(SEXP nim)
 	return nim;
 }
 
+SEXP Rnifti_read_subregion_image(SEXP nim, SEXP start_index, SEXP region_index)
+{
+	SEXP ret_val=R_NilValue;
+        int i,region_size_in_voxel=0,region_size_in_bytes=0;
+	void *data=NULL;
+	SEXP start_index_sexp,region_index_sexp;
+
+	nifti_image *pnim=SEXP2NIFTI(nim);
+
+	PROTECT(start_index_sexp=AS_INTEGER(start_index));
+	PROTECT(region_index_sexp=AS_INTEGER(region_index));
+	if(LENGTH(start_index_sexp)<pnim->dim[0] || LENGTH(region_index)<pnim->dim[0])
+        { 
+          UNPROTECT(2); 
+          error("ERROR: start_index and region_index must have length >= no. of image dimensions!"); 
+          return ret_val;
+        }
+
+  	int *start_index_int=INTEGER_POINTER(start_index_sexp);
+  	int *region_index_int=INTEGER_POINTER(region_index_sexp);
+
+	for(i=0;i<pnim->dim[0];++i)
+           region_size_in_voxel=region_index_int[i]*region_size_in_voxel;
+	region_size_in_bytes=region_size_in_voxel*pnim->nbyper;
+
+	switch(pnim->datatype)
+        {
+		case DT_NONE:          
+		case DT_BINARY:        
+		case DT_UNSIGNED_CHAR: PROTECT(ret_val=NEW_CHARACTER(region_size_in_voxel)); data=(void*)CHARACTER_POINTER(ret_val); break;
+		case DT_SIGNED_INT:    PROTECT(ret_val=NEW_INTEGER(region_size_in_voxel)); data=(void*)INTEGER_POINTER(ret_val); break;
+		case DT_DOUBLE:        PROTECT(ret_val=NEW_NUMERIC(region_size_in_voxel)); data=(void*)NUMERIC_POINTER(ret_val); break;
+		case DT_INT8:          
+		case DT_UINT16:        
+		case DT_SIGNED_SHORT:  
+		case DT_UINT32:        
+		case DT_INT64: 	       
+		case DT_UINT64:	       
+		case DT_FLOAT:         
+		case DT_FLOAT128:      
+		case DT_COMPLEX:       
+		case DT_COMPLEX128:    
+		case DT_COMPLEX256:    
+		case DT_RGB: 	       
+		case DT_RGBA32:        
+		default: warning("Unsupported or unknown data type!"); break;
+	}
+	if(data!=NULL)
+        {
+	  if(region_size_in_bytes != nifti_read_subregion_image(pnim, start_index_int, region_index_int,&data ))
+  	    error("ERROR: calculated region size different from returned region size!"); 
+	  UNPROTECT(3);  // unprotect start_index_sexp and region_index_sexp and ret_val
+        }
+	else
+  	  UNPROTECT(2); // unprotect start_index_sexp and region_index_sexp
+	return ret_val;
+}
+
 SEXP Rnifti_set_filenames(SEXP nim, SEXP prefix, SEXP check, SEXP set_byte_order)
 {
   SEXP ret_val=Rnifti_int_SEXP(1);

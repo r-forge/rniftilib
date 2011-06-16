@@ -24,6 +24,7 @@ NB: seeks for writable files with compression are quite restricted
 - change HAVE_ZLIB to HAVE_LIBZ to fit autoconf tests
 */
 #include "znzlib.h"
+#include "../config.h"
 
 /*
 znzlib.c  (zipped or non-zipped library)
@@ -132,11 +133,12 @@ int Xznzclose(znzFile * file)
 
 size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 {
+#ifdef HAVE_LIBZ
   size_t     remain = size*nmemb;
   char     * cbuf = (char *)buf;
   unsigned   n2read;
   int        nread;
-
+#endif
   if (file==NULL) { return 0; }
 #ifdef HAVE_LIBZ
   if (file->zfptr!=NULL) {
@@ -166,11 +168,12 @@ size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 
 size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 {
+#ifdef HAVE_LIBZ
   size_t     remain = size*nmemb;
   char     * cbuf = (char *)buf;
   unsigned   n2write;
   int        nwritten;
-
+#endif
   if (file==NULL) { return 0; }
 #ifdef HAVE_LIBZ
   if (file->zfptr!=NULL) {
