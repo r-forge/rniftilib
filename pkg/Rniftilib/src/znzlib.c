@@ -20,7 +20,9 @@ are required:
 NB: seeks for writable files with compression are quite restricted
 
  */
-
+/* changes by Oliver Granert:
+- change HAVE_ZLIB to HAVE_LIBZ to fit autoconf tests
+*/
 #include "znzlib.h"
 
 /*
@@ -124,26 +126,74 @@ int Xznzclose(znzFile * file)
 }
 
 
+/* we already assume ints are 4 bytes */
+#undef ZNZ_MAX_BLOCK_SIZE
+#define ZNZ_MAX_BLOCK_SIZE (1<<30)
+
 size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 {
+  size_t     remain = size*nmemb;
+  char     * cbuf = (char *)buf;
+  unsigned   n2read;
+  int        nread;
+
   if (file==NULL) { return 0; }
 #ifdef HAVE_LIBZ
-  if (file->zfptr!=NULL) 
-    return (size_t) (gzread(file->zfptr,buf,((int) size)*((int) nmemb)) / size);
+  if (file->zfptr!=NULL) {
+    /* gzread/write take unsigned int length, so maybe read in int pieces
+       (noted by M Hanke, example given by M Adler)   6 July 2010 [rickr] */
+    while( remain > 0 ) {
+       n2read = (remain < ZNZ_MAX_BLOCK_SIZE) ? remain : ZNZ_MAX_BLOCK_SIZE;
+       nread = gzread(file->zfptr, (void *)cbuf, n2read);
+       if( nread < 0 ) return nread; /* returns -1 on error */
+
+       remain -= nread;
+       cbuf += nread;
+
+       /* require reading n2read bytes, so we don't get stuck */
+       if( nread < (int)n2read ) break;  /* return will be short */
+    }
+
+    /* warn of a short read that will seem complete */
+    if( remain > 0 && remain < size )
+       fprintf(stderr,"** znzread: read short by %u bytes\n",(unsigned)remain);
+
+    return nmemb - remain/size;   /* return number of members processed */
+  }
 #endif
   return fread(buf,size,nmemb,file->nzfptr);
 }
 
 size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 {
+  size_t     remain = size*nmemb;
+  char     * cbuf = (char *)buf;
+  unsigned   n2write;
+  int        nwritten;
+
   if (file==NULL) { return 0; }
 #ifdef HAVE_LIBZ
-  if (file->zfptr!=NULL)
-      {
-      /*  NOTE:  We must typecast const away from the buffer because
-          gzwrite does not have complete const specification */
-    return (size_t) ( gzwrite(file->zfptr,(void *)buf,size*nmemb) / size );
-      }
+  if (file->zfptr!=NULL) {
+    while( remain > 0 ) {
+       n2write = (remain < ZNZ_MAX_BLOCK_SIZE) ? remain : ZNZ_MAX_BLOCK_SIZE;
+       nwritten = gzwrite(file->zfptr, (void *)cbuf, n2write);
+
+       /* gzread returns 0 on error, but in case that ever changes... */
+       if( nwritten < 0 ) return nwritten;
+
+       remain -= nwritten;
+       cbuf += nwritten;
+
+       /* require writing n2write bytes, so we don't get stuck */
+       if( nwritten < (int)n2write ) break;
+    }
+
+    /* warn of a short write that will seem complete */
+    if( remain > 0 && remain < size )
+      fprintf(stderr,"** znzwrite: write short by %u bytes\n",(unsigned)remain);
+
+    return nmemb - remain/size;   /* return number of members processed */
+  }
 #endif
   return fwrite(buf,size,nmemb,file->nzfptr);
 }
@@ -245,13 +295,13 @@ int znzgetc(znzFile file)
 int znzprintf(znzFile stream, const char *format, ...)
 {
   int retval=0;
+  char *tmpstr;
   va_list va;
   if (stream==NULL) { return 0; }
   va_start(va, format);
 #ifdef HAVE_LIBZ
   if (stream->zfptr!=NULL) {
     int size;  /* local to HAVE_LIBZ block */
-    char *tmpstr;
     size = strlen(format) + 1000000;  /* overkill I hope */
     tmpstr = (char *)calloc(1, size);
     if( tmpstr == NULL ){

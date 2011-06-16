@@ -172,7 +172,7 @@ typedef struct {                /*!< Image storage struct **/
   nifti1_extension * ext_list ; /*!< array of extension structs (with data) */
   analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient */
 
-} __attribute__((__packed__)) nifti_image ;
+} nifti_image ;
 
 
 
@@ -243,7 +243,7 @@ typedef struct {
        int field_skip;                  /* 180 + 4                        */
        int omax, omin;                  /* 184 + 8                        */
        int smax, smin;                  /* 192 + 8              200 bytes */
-} __attribute__((__packed__)) nifti_analyze75;                                   /* total:  348 bytes */
+} nifti_analyze75;                                   /* total:  348 bytes */
 
 
 /*****************************************************************************/
@@ -267,15 +267,15 @@ float nifti_mat33_colnorm( mat33 A ) ;
 float nifti_mat33_determ ( mat33 R ) ;
 mat33 nifti_mat33_mul    ( mat33 A , mat33 B ) ;
 
-void  nifti_swap_2bytes ( int n , void *ar ) ;
-void  nifti_swap_4bytes ( int n , void *ar ) ;
-void  nifti_swap_8bytes ( int n , void *ar ) ;
-void  nifti_swap_16bytes( int n , void *ar ) ;
-void  nifti_swap_Nbytes ( int n , int siz , void *ar ) ;
+void  nifti_swap_2bytes ( size_t n , void *ar ) ;
+void  nifti_swap_4bytes ( size_t n , void *ar ) ;
+void  nifti_swap_8bytes ( size_t n , void *ar ) ;
+void  nifti_swap_16bytes( size_t n , void *ar ) ;
+void  nifti_swap_Nbytes ( size_t n , int siz , void *ar ) ;
 
 int    nifti_datatype_is_valid   (int dtype, int for_nifti);
 int    nifti_datatype_from_string(const char * name);
-const char *nifti_datatype_to_string  (int dtype);
+const char * nifti_datatype_to_string  (int dtype);
 
 int   nifti_get_filesize( const char *pathname ) ;
 void  swap_nifti_header ( struct nifti_1_header *h , int is_nifti ) ;
@@ -308,12 +308,9 @@ void         nifti_image_write_bricks(nifti_image * nim,
                                       const nifti_brick_list * NBL);
 void         nifti_image_infodump( const nifti_image * nim ) ;
 
-
 void         nifti_disp_lib_hist( void ) ;     /* to display library history */
-
-/* replaced for Rniftilib
- void         nifti_disp_lib_version( void ) ;*/  /* to display library version */
-const char  *nifti_disp_lib_version( void );
+void         nifti_disp_lib_version( void ) ;  /* to display library version */
+const char  *nifti_lib_version( void );
 int          nifti_disp_matrix_orient( const char * mesg, mat44 mat );
 int          nifti_disp_type_list( int which );
 
@@ -338,6 +335,7 @@ int    nifti_validfilename(const char* fname);
 int    disp_nifti_1_header(const char * info, const nifti_1_header * hp ) ;
 void   nifti_set_debug_level( int level ) ;
 void   nifti_set_skip_blank_ext( int skip ) ;
+void   nifti_set_allow_upper_fext( int allow ) ;
 
 int    valid_nifti_brick_list(nifti_image * nim , int nbricks,
                               const int * blist, int disp_error);
@@ -457,9 +455,27 @@ int    valid_nifti_extensions(const nifti_image *nim);
                                             /~fissell/NIFTI_ECODE_WORKFLOW_FWDS
                                             /NIFTI_ECODE_WORKFLOW_FWDS.html   */
 
-#define NIFTI_ECODE_FREESURFER      14  /* http://surfer.nmr.mgh.harvard.edu */
+#define NIFTI_ECODE_FREESURFER      14  /* http://surfer.nmr.mgh.harvard.edu  */
 
-#define NIFTI_MAX_ECODE             14  /******* maximum extension code *******/
+#define NIFTI_ECODE_PYPICKLE        16  /* embedded Python objects
+                                           http://niftilib.sourceforge.net
+                                                 /pynifti                     */
+
+        /* LONI MiND codes: http://www.loni.ucla.edu/twiki/bin/view/Main/MiND */
+#define NIFTI_ECODE_MIND_IDENT      18  /* Vishal Patel: vishal.patel@ucla.edu*/
+#define NIFTI_ECODE_B_VALUE         20
+#define NIFTI_ECODE_SPHERICAL_DIRECTION 22
+#define NIFTI_ECODE_DT_COMPONENT    24
+#define NIFTI_ECODE_SHC_DEGREEORDER 26  /* end LONI MiND codes                */
+
+#define NIFTI_ECODE_VOXBO           28  /* Dan Kimberg: www.voxbo.org         */
+
+#define NIFTI_ECODE_CARET           30  /* John Harwell: john@brainvis.wustl.edu
+                                           http://brainvis.wustl.edu/wiki
+                                             /index.php/Caret:Documentation
+                                             :CaretNiftiExtension             */
+
+#define NIFTI_MAX_ECODE             30  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0
@@ -474,8 +490,9 @@ int    valid_nifti_extensions(const nifti_image *nim);
 #ifdef _NIFTI1_IO_C_
 
 typedef struct {
-    int debug;               /*!< debug level for status reports */
-    int skip_blank_ext;      /*!< skip extender if no extensions */
+    int debug;               /*!< debug level for status reports  */
+    int skip_blank_ext;      /*!< skip extender if no extensions  */
+    int allow_upper_fext;    /*!< allow uppercase file extensions */
 } nifti_global_options;
 
 typedef struct {

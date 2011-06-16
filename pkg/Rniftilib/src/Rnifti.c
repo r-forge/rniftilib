@@ -1715,7 +1715,7 @@ SEXP Rnifti_disp_lib_version(void)
 	SEXP ret_val=R_NilValue;
 	char buffer[200];
 
-    snprintf(buffer, 200, "%s, compiled %s", nifti_disp_lib_version(), __DATE__);
+    snprintf(buffer, 200, "%s, compiled %s", nifti_lib_version(), __DATE__);
 
 	PROTECT(ret_val = NEW_CHARACTER(1));
     SET_STRING_ELT(ret_val, 0, mkChar(buffer));

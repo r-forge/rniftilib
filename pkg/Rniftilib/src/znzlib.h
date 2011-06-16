@@ -32,8 +32,8 @@ are required:
  - use znz_isnull rather than any (pointer == NULL) comparisons in the code
  
 NB: seeks for writable files with compression are quite restricted
-*/
 
+*/
 /* changes by Oliver Granert:
 - change HAVE_ZLIB to HAVE_LIBZ to fit autoconf tests
 */
@@ -56,9 +56,6 @@ extern "C" {
 */
 /* #define HAVE_FDOPEN */
 
-#ifdef HAVE_CONFIG_H
-#include "../config.h"
-#endif
 
 #ifdef HAVE_LIBZ
 #if defined(ITKZLIB)

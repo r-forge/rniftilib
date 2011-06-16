@@ -48,6 +48,11 @@ nifti.image.getdim.save <- function(nim, index)
   retval   
 }
 
+is.nifti <- function(x)
+{
+  is(x,"nifti")
+}
+
 "[.nifti" <- function(x, 
                       dim1=1:nifti.image.getdim.save(x,1),
                       dim2=1:nifti.image.getdim.save(x,2),

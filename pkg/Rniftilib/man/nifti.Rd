@@ -7,6 +7,7 @@
 \alias{plot.nifti}
 \alias{[<-.nifti}
 \alias{$<-.nifti}
+\alias{is.nifti}
 \alias{nifti.image.getdim.save}
 \title{NIfTI object}
 \description{
@@ -27,6 +28,7 @@
   \method{dim}{nifti}(x)
   \method{print}{nifti}(x,...)
   \method{plot}{nifti}(x, dim1=1:nifti.image.getdim.save(x,1), dim2=1:nifti.image.getdim.save(x,2),dim3=1, dim4=1,...)
+  is.nifti(x)
 }
 \arguments{
   \item{x}{NIfTI image object (class nifti)}
