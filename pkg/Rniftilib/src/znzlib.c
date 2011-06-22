@@ -24,7 +24,6 @@ NB: seeks for writable files with compression are quite restricted
 - change HAVE_ZLIB to HAVE_LIBZ to fit autoconf tests
 */
 #include "znzlib.h"
-#include "../config.h"
 
 /*
 znzlib.c  (zipped or non-zipped library)
