@@ -2,7 +2,7 @@
 \alias{nifti.read.subregion.image}
 \title{Read a subregion from a NIfTI image}
 \description{
-Read a single arbitary subregion of any rectangular size from a NIfTI dataset.
+EXPERIMENTAL (unstable interface!): Read a single arbitary subregion of any rectangular size from a NIfTI dataset.
 }
 \usage{
 nifti.read.subregion.image(nim, start_index, region_size)

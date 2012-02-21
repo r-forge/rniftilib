@@ -96,10 +96,10 @@ nifti.image.setdatatype <- function(nim, value)
 }
 
 # EXPERIMENTAL function
-#nifti.read.subregion.image <- function(nim, start_index, region_size)
-#{
-#  .Call("Rnifti_read_subregion_image", nim, start_index, region_size, PACKAGE="Rniftilib")
-#}
+nifti.read.subregion.image <- function(nim, start_index, region_size)
+{
+  .Call("Rnifti_read_subregion_image", nim, start_index, region_size, PACKAGE="Rniftilib")
+}
 
 nifti.interpolate3d <- function(nim, x, y, z, t=1)
 {
