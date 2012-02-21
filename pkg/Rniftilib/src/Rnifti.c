@@ -271,6 +271,7 @@ SEXP Rnifti_image_unload(SEXP nim)
 	return nim;
 }
 
+/* EXPERIMENTAL function ...*/
 SEXP Rnifti_read_subregion_image(SEXP nim, SEXP start_index, SEXP region_index)
 {
 	SEXP ret_val=R_NilValue;
