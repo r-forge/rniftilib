@@ -1793,4 +1793,12 @@ SEXP Rnifti_units_string(SEXP value)
 	return ret_val;
 }
 
-
+SEXP Rnifti_datatype_string(SEXP value)
+{
+	SEXP ret_val=R_NilValue;
+	PROTECT(value=AS_INTEGER(value));
+	if(IS_INTEGER(value) && LENGTH(value)==1)          
+	  ret_val = Rnifti_pchar_SEXP(nifti_datatype_string(INTEGER_POINTER(value)[0]));
+	UNPROTECT(1);
+	return ret_val;
+}

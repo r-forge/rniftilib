@@ -637,14 +637,14 @@ int nifti_update_dims_from_array( nifti_image * nim )
    if( g_opts.debug > 2 ){
       REprintf(/*fprintf(stderr,*/"+d updating image dimensions given nim->dim:");
       for( c = 0; c < 8; c++ ) REprintf(/*fprintf(stderr,*/" %d", nim->dim[c]);
-      REprintf('\n');
+      REprintf("\n");/*fputc('\n',stderr);*/
    }
 
    /* verify dim[0] first */
    if(nim->dim[0] < 1 || nim->dim[0] > 7){
       REprintf(/*fprintf(stderr,*/"** invalid dim[0], dim[] = ");
       for( c = 0; c < 8; c++ ) REprintf(/*fprintf(stderr,*/" %d", nim->dim[c]);
-      REprintf('\n');/*fputc('\n',stderr);*/
+      REprintf("\n");/*fputc('\n',stderr);*/
       return 1;
    }
 
@@ -1146,13 +1146,13 @@ int nifti_disp_matrix_orient( const char * mesg, mat44 mat )
 {
    int i, j, k;
 
-   if ( mesg ) REprintf(mesg);  /* use stdout? */
+   if ( mesg ) Rprintf(mesg);  /* use stdout? */
 
    nifti_mat44_to_orientation( mat, &i,&j,&k );
    if ( i <= 0 || j <= 0 || k <= 0 ) return -1;
 
    /* so we have good codes */
-   REprintf(/*fprintf(stderr,*/"  i orientation = '%s'\n"
+   Rprintf(/*fprintf(stderr,*/"  i orientation = '%s'\n"
                    "  j orientation = '%s'\n"
                    "  k orientation = '%s'\n",
                    nifti_orientation_string(i),

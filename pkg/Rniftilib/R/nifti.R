@@ -166,3 +166,9 @@ nifti.units.string <- function(value)
 {
   .Call("Rnifti_units_string", value, PACKAGE="Rniftilib")
 }
+
+nifti.datatype.string <- function(value)
+{
+  .Call("Rnifti_datatype_string ", value, PACKAGE="Rniftilib")
+}
+
