@@ -1802,3 +1802,4 @@ SEXP Rnifti_datatype_string(SEXP value)
 	UNPROTECT(1);
 	return ret_val;
 }
+
