@@ -854,7 +854,7 @@ SEXP Rnifti_image_write(SEXP nim)
   return R_NilValue;
 }
 
-SEXP Rnifti_image_getdim(SEXP nim)
+/*SEXP Rnifti_image_getdim(SEXP nim)
 {
   SEXP ret_val=R_NilValue;
   nifti_image *pnim=SEXP2NIFTI(nim);
@@ -868,7 +868,7 @@ SEXP Rnifti_image_getdim(SEXP nim)
       UNPROTECT(1);
     }
   return ret_val;
-}
+}*/
 
 SEXP Rnifti_image_getpixel2(SEXP sexp_args)
 {

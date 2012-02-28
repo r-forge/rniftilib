@@ -39,7 +39,5 @@ The subregion data in a vector.
   \code{\link{nifti.image.read}}
 }
 
-\examples{
-}
 \keyword{manip}
 \keyword{data}

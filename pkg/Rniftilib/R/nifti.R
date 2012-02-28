@@ -1,8 +1,3 @@
-nifti.image.read <- function(file, read_data=1) 
-{
-  .Call("Rnifti_image_read", file, read_data, PACKAGE="Rniftilib") 
-}
-
 nifti.image.new <- function()
 {
   .Call("Rnifti_image_new", PACKAGE="Rniftilib") 
@@ -32,6 +27,11 @@ nifti.set.filenames <- function(nim, prefix, check=1, set_byte_order=1)
 {
   .Call("Rnifti_set_filenames", nim, prefix, check, set_byte_order,
         PACKAGE="Rniftilib")
+}
+
+nifti.image.read <- function(file, read_data=1) 
+{
+  .Call("Rnifti_image_read", file, read_data, PACKAGE="Rniftilib") 
 }
 
 nifti.image.write <- function(nim) 
@@ -142,9 +142,14 @@ print.nifti <- function(x, ...)
   .Call("Rnifti_image_printinfo", x, PACKAGE="Rniftilib")
 }
 
-dim.nifti <- function(x)
+"dim.nifti" <- function(x)
 {
-  .Call("Rnifti_image_getdim", x, PACKAGE="Rniftilib")
+  .Call("Rnifti_image_getattribute", x, "dim", PACKAGE="Rniftilib")
+}
+
+"dim<-.nifti" <- function(x, value)
+{
+  .Call("Rnifti_image_setattribute", x, "dim", value, PACKAGE="Rniftilib")
 }
 
 nifti.compiled.with.zlib <- function()

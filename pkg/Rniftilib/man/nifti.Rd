@@ -2,6 +2,7 @@
 \alias{nifti}
 \alias{[.nifti}
 \alias{dim.nifti}
+\alias{dim<-.nifti}
 \alias{$.nifti}
 \alias{print.nifti}
 \alias{plot.nifti}

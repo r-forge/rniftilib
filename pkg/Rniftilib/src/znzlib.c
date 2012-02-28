@@ -24,6 +24,7 @@ NB: seeks for writable files with compression are quite restricted
 - change HAVE_ZLIB to HAVE_LIBZ to fit autoconf tests
 */
 #include "znzlib.h"
+#include <R.h>
 
 /*
 znzlib.c  (zipped or non-zipped library)
@@ -51,7 +52,7 @@ znzFile znzopen(const char *path, const char *mode, int use_compression)
   znzFile file;
   file = (znzFile) calloc(1,sizeof(struct znzptr));
   if( file == NULL ){
-     fprintf(stderr,"** ERROR: znzopen failed to alloc znzptr\n");
+     REprintf(/*fprintf(stderr,*/"** ERROR: znzopen failed to alloc znzptr\n");
      return NULL;
   }
 
@@ -88,7 +89,7 @@ znzFile znzdopen(int fd, const char *mode, int use_compression)
   znzFile file;
   file = (znzFile) calloc(1,sizeof(struct znzptr));
   if( file == NULL ){
-     fprintf(stderr,"** ERROR: znzdopen failed to alloc znzptr\n");
+     REprintf(/*fprintf(stderr,*/"** ERROR: znzdopen failed to alloc znzptr\n");
      return NULL;
   }
 #ifdef HAVE_LIBZ
@@ -157,7 +158,7 @@ size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 
     /* warn of a short read that will seem complete */
     if( remain > 0 && remain < size )
-       fprintf(stderr,"** znzread: read short by %u bytes\n",(unsigned)remain);
+       REprintf(/*fprintf(stderr,*/"** znzread: read short by %u bytes\n",(unsigned)remain);
 
     return nmemb - remain/size;   /* return number of members processed */
   }
@@ -192,7 +193,7 @@ size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 
     /* warn of a short write that will seem complete */
     if( remain > 0 && remain < size )
-      fprintf(stderr,"** znzwrite: write short by %u bytes\n",(unsigned)remain);
+      REprintf(/*fprintf(stderr,*/"** znzwrite: write short by %u bytes\n",(unsigned)remain);
 
     return nmemb - remain/size;   /* return number of members processed */
   }
@@ -307,7 +308,7 @@ int znzprintf(znzFile stream, const char *format, ...)
     size = strlen(format) + 1000000;  /* overkill I hope */
     tmpstr = (char *)calloc(1, size);
     if( tmpstr == NULL ){
-       fprintf(stderr,"** ERROR: znzprintf failed to alloc %d bytes\n", size);
+       REprintf(/*fprintf(stderr,*/"** ERROR: znzprintf failed to alloc %d bytes\n", size);
        return retval;
     }
     vsprintf(tmpstr,format,va);

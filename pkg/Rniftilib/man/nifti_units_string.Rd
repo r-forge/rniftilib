@@ -1,6 +1,6 @@
 \name{nifti.units.string}
 \alias{nifti.units.string}
-\title{Unload NIfTI image data}
+\title{Return string for NIfTI-1 unit code value.}
 \description{
 Return a string holding the name of a NIFTI units type.
 }
