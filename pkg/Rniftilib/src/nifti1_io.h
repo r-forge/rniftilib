@@ -291,8 +291,12 @@ int          nifti_image_load_bricks(nifti_image *nim , int nbricks,
                                      const int *blist, nifti_brick_list * NBL);
 void         nifti_free_NBL( nifti_brick_list * NBL );
 
-nifti_image *nifti_image_read    ( const char *hname , int read_data ) ;
+nifti_image *nifti_image_read    ( const char *hname , int read_data );
+nifti_image *nifti_image_read_NaN    ( const char *hname , int read_data , int rmNaN);
+
 int          nifti_image_load    ( nifti_image *nim ) ;
+int          nifti_image_load_NaN    ( nifti_image *nim , int rmNaN) ;
+
 void         nifti_image_unload  ( nifti_image *nim ) ;
 void         nifti_image_free    ( nifti_image *nim ) ;
 
@@ -346,6 +350,8 @@ znzFile nifti_image_write_hdr_img(nifti_image *nim, int write_data,
                                   const char* opts);
 znzFile nifti_image_write_hdr_img2( nifti_image *nim , int write_opts ,
                const char* opts, znzFile imgfile, const nifti_brick_list * NBL);
+size_t  nifti_read_buffer_NaN(znzFile fp, void* datatptr, size_t ntot,
+                         nifti_image *nim, int rmNaN);
 size_t  nifti_read_buffer(znzFile fp, void* datatptr, size_t ntot,
                          nifti_image *nim);
 int     nifti_write_all_data(znzFile fp, nifti_image * nim,

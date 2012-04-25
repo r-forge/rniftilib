@@ -4160,7 +4160,7 @@ static int need_nhdr_swap( short dim0, int hdrsize )
 
     \sa nifti_image_free, nifti_free_extensions, nifti_image_read_bricks
 */
-nifti_image *nifti_image_read( const char *hname , int read_data )
+nifti_image *nifti_image_read_NaN( const char *hname , int read_data , int rmNaN)
 {
    struct nifti_1_header  nhdr ;
    nifti_image           *nim ;
@@ -4254,7 +4254,7 @@ nifti_image *nifti_image_read( const char *hname , int read_data )
 
    /**- read the data if desired, then bug out */
    if( read_data ){
-      if( nifti_image_load( nim ) < 0 ){
+      if( nifti_image_load_NaN( nim , rmNaN) < 0 ){
          nifti_image_free(nim);          /* take ball, go home. */
          return NULL;
       }
@@ -4264,6 +4264,25 @@ nifti_image *nifti_image_read( const char *hname , int read_data )
    return nim ;
 }
 
+/***************************************************************
+ * nifti_image_read
+ ***************************************************************/
+/*! \brief Read a nifti header and optionally the data, creating a nifti_image.
+
+        - The data buffer will be byteswapped if necessary.
+        - The data buffer will not be scaled.
+        - The data buffer is allocated with calloc().
+
+    \param hname filename of the nifti dataset
+    \param read_data Flag, true=read data blob, false=don't read blob.
+    \return A pointer to the nifti_image data structure.
+
+    \sa nifti_image_free, nifti_free_extensions, nifti_image_read_bricks
+*/
+nifti_image *nifti_image_read( const char *hname , int read_data)
+{
+  return nifti_image_read_NaN( hname , read_data, 1);
+}
 
 /*----------------------------------------------------------------------
  * has_ascii_header  - see if the NIFTI header is an ASCII format
@@ -4876,7 +4895,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
     \return 0 on success, -1 on failure
     \sa     nifti_image_read, nifti_image_free, nifti_image_unload
 */
-int nifti_image_load( nifti_image *nim )
+int nifti_image_load_NaN( nifti_image *nim , int rmNaN)
 {
    /* set up data space, open data file and seek, then call nifti_read_buffer */
    size_t ntot , ii ;
@@ -4908,7 +4927,7 @@ int nifti_image_load( nifti_image *nim )
    }
 
    /**- now that everything is set up, do the reading */
-   ii = nifti_read_buffer(fp,nim->data,ntot,nim);
+   ii = nifti_read_buffer_NaN(fp,nim->data,ntot,nim, rmNaN);
    if( ii < ntot ){
       znzclose(fp) ;
       free(nim->data) ;
@@ -4922,13 +4941,29 @@ int nifti_image_load( nifti_image *nim )
    return 0 ;
 }
 
+/*----------------------------------------------------------------------
+ * nifti_image_load
+ *----------------------------------------------------------------------*/
+/*! \fn int nifti_image_load( nifti_image *nim )
+    \brief Load the image blob into a previously initialized nifti_image.
 
-/* 30 Nov 2004 [rickr]
-#undef  ERREX
-#define ERREX(msg)                                               \
- do{ fprintf(stderr,"** ERROR: nifti_read_buffer: %s\n",(msg)) ;  \
-     return 0; } while(0)
+        - If not yet set, the data buffer is allocated with calloc().
+        - The data buffer will be byteswapped if necessary.
+        - The data buffer will not be scaled.
+
+    This function is used to read the image from disk.  It should be used
+    after a function such as nifti_image_read(), so that the nifti_image
+    structure is already initialized.
+
+    \param  nim pointer to a nifti_image (previously initialized)
+    \return 0 on success, -1 on failure
+    \sa     nifti_image_read, nifti_image_free, nifti_image_unload
 */
+int nifti_image_load( nifti_image *nim)
+{
+  return nifti_image_load_NaN( nim , 1);
+}
+
 
 /*----------------------------------------------------------------------*/
 /*! read ntot bytes of data from an open file and byte swaps if necessary
@@ -4938,8 +4973,8 @@ int nifti_image_load( nifti_image *nim )
 
    This function does not allocate memory, so dataptr must be valid.
 *//*--------------------------------------------------------------------*/
-size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot, 
-                                nifti_image *nim)
+size_t nifti_read_buffer_NaN(znzFile fp, void* dataptr, size_t ntot, 
+                                nifti_image *nim, int rmNaN)
 {
   size_t ii;
 
@@ -4977,6 +5012,7 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
   }
 
 #ifdef isfinite
+if(rmNaN)
 {
   /* check input float arrays for goodness, and fix bad floats */
   int fix_count = 0 ;
@@ -5012,10 +5048,20 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
   if( g_opts.debug > 1 )
      REprintf(/*fprintf(stderr,*/"+d in image, %d bad floats were set to 0\n", fix_count);
 }
+  
 #endif
   
   return ii;
 }
+
+size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot, 
+                                nifti_image *nim)
+{
+  return nifti_read_buffer_NaN(fp, dataptr, ntot, nim, 1); // call new function with NaN flag support!
+}
+
+
+
 
 /*--------------------------------------------------------------------------*/
 /*! Unload the data in a nifti_image struct, but keep the metadata.

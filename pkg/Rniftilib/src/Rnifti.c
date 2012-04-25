@@ -812,22 +812,31 @@ SEXP Rnifti_image_copy_info(SEXP nim)
   return ret_val;
 }
 
-SEXP Rnifti_image_read(SEXP file, SEXP read_data)
+SEXP Rnifti_image_read(SEXP file, SEXP read_data, SEXP rmNaN)
 {
   nifti_image *pnim;
   PROTECT(read_data = AS_INTEGER(read_data));
   PROTECT(file = AS_CHARACTER(file));
+  PROTECT(rmNaN = AS_LOGICAL(rmNaN));
   if(!isString(file) || length(file) != 1)
-    error("Rnifti_image_read: file is not a single string\n");
+  {  error("Rnifti_image_read: file is not a single string\n"); return R_NilValue; }
+  if(!isLogical(rmNaN) || length(rmNaN) != 1)
+  {  error("Rnifti_image_read: rm.NaN is not a single logical\n"); return R_NilValue; }
+  int int_rmNaN = (int)(LOGICAL_POINTER(rmNaN)[0]);
+  if(int_rmNaN<0)
+  {  error("Rnifti_image_read: rm.NaN is not a valid logical\n"); return R_NilValue; }
   if(length(read_data) != 1)
-    error("Rnifti_image_read: read_data is not a single integer\n");
+  {  error("Rnifti_image_read: read_data is not a single integer\n"); return R_NilValue; }
   int *piread_data = INTEGER_POINTER(read_data);
   const char *pcfilename  = CHAR(STRING_ELT(file , 0));
-  pnim = nifti_image_read( pcfilename , piread_data[0] ) ;
+  
+  
+  
+  pnim = nifti_image_read_NaN( pcfilename , piread_data[0], int_rmNaN ) ;
   if(pnim==NULL)
     {
       error("Rnifti_image_read: Can not open file \"%s\"",pcfilename);
-      UNPROTECT(2);
+      UNPROTECT(3);
       return R_NilValue;
     }
 
@@ -839,7 +848,7 @@ SEXP Rnifti_image_read(SEXP file, SEXP read_data)
   PROTECT(classattrib = allocVector(STRSXP, 1));
   SET_STRING_ELT(classattrib, 0, mkChar("nifti"));
   classgets(nim, classattrib);
-  UNPROTECT(3);
+  UNPROTECT(4);
   return nim;
 }
 

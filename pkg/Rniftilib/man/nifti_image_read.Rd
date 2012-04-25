@@ -2,15 +2,15 @@
 \alias{nifti.image.read}
 \title{Read data from NIfTI (Analyze) files}
 \description{
-  This function reads the data from a nifti file into the R
-  environment.
+  This function reads the meta and image data from a nifti file.
 }
 \usage{
-nifti.image.read(file, read_data=1) 
+nifti.image.read(file, read_data=1, rm.NaN=TRUE) 
 }
 \arguments{
-  \item{file}{the name of the nifti file}
-  \item{read_data}{0=do not read data, 1=read data}
+  \item{file}{name of the nifti file}
+  \item{read_data}{0=do not read image data, 1=read image data}
+  \item{rm.NaN}{logical value indicating whether ‘NA’ and 'NaN' values should be stripped}
 }
 \details{
 If \code{read_data=0} only the header info is loaded.  

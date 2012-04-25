@@ -29,9 +29,9 @@ nifti.set.filenames <- function(nim, prefix, check=1, set_byte_order=1)
         PACKAGE="Rniftilib")
 }
 
-nifti.image.read <- function(file, read_data=1) 
+nifti.image.read <- function(file, read_data=1, rm.NaN=TRUE) 
 {
-  .Call("Rnifti_image_read", file, read_data, PACKAGE="Rniftilib") 
+  .Call("Rnifti_image_read", file, read_data, rm.NaN, PACKAGE="Rniftilib") 
 }
 
 nifti.image.write <- function(nim) 
