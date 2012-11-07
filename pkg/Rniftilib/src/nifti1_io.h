@@ -510,7 +510,7 @@ typedef struct {
 
 #undef  LNI_FERR /* local nifti file error, to be compact and repetative */
 #define LNI_FERR(func,msg,file)                                      \
-            fprintf(stderr,"** ERROR (%s): %s '%s'\n",func,msg,file)
+            REprintf("** ERROR (%s): %s '%s'\n",func,msg,file)
 
 #undef  swap_2
 #undef  swap_4
