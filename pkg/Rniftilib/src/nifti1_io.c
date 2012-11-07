@@ -4165,7 +4165,7 @@ nifti_image *nifti_image_read_NaN( const char *hname , int read_data , int rmNaN
    nifti_image           *nim ;
    znzFile                fp ;
    int                    rv, ii , filesize, remaining;
-   char                   fname[] = { "nifti_image_read" };
+   char                   fname[] = { "nifti_image_read_NaN" };
    char                  *hfile=NULL;
 
    if( g_opts.debug > 1 ){
