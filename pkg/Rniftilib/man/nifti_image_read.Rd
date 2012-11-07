@@ -10,7 +10,7 @@ nifti.image.read(file, read_data=1, rm.NaN=TRUE)
 \arguments{
   \item{file}{name of the nifti file}
   \item{read_data}{0=do not read image data, 1=read image data}
-  \item{rm.NaN}{logical value indicating whether ‘NA’ and 'NaN' values should be stripped}
+  \item{rm.NaN}{logical value indicating whether NA and NaN values should be stripped (default in niftilib C library)}
 }
 \details{
 If \code{read_data=0} only the header info is loaded.  
