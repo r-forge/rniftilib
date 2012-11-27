@@ -3600,7 +3600,7 @@ int disp_nifti_1_header( const char * info, const nifti_1_header * hp )
 
 #undef  ERREX
 #define ERREX(msg)                                           \
- do{ fprintf(stderr,"** ERROR: nifti_convert_nhdr2nim: %s\n", (msg) ) ;  \
+ do{ REprintf("** ERROR: nifti_convert_nhdr2nim: %s\n", (msg) ) ;  \
      return NULL ; } while(0)
 
 /*----------------------------------------------------------------------*/
