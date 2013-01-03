@@ -3886,7 +3886,7 @@ nifti_image* nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
 
 #undef  ERREX
 #define ERREX(msg)                                           \
- do{ fprintf(stderr,"** ERROR: nifti_image_open(%s): %s\n",  \
+ do{ REprintf("** ERROR: nifti_image_open(%s): %s\n",  \
              (hname != NULL) ? hname : "(null)" , (msg) ) ;  \
      return fptr ; } while(0)
 
@@ -5721,7 +5721,7 @@ znzFile nifti_image_write_hdr_img( nifti_image *nim , int write_data ,
 
 #undef  ERREX
 #define ERREX(msg)                                                \
- do{ fprintf(stderr,"** ERROR: nifti_image_write_hdr_img: %s\n",(msg)) ;  \
+ do{ REprintf("** ERROR: nifti_image_write_hdr_img: %s\n",(msg)) ;  \
      return fp ; } while(0)
 
 
