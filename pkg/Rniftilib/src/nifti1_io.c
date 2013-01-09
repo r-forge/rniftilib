@@ -340,9 +340,11 @@ static char * gni_history[] =
   "   - fixed znzread/write, noting example by M Adler\n"
   "   - changed nifti_swap_* routines/calls to take size_t (6)\n"
   "1.43 07 Jul 2010 [rickr]: fixed znzR/W to again return nmembers\n",
+  "1.43r 09 Jan 2013 [oliverg]: replace outputs to stdout and stderr by \n",
+  "      Rprintf and REprintf\n",
   "----------------------------------------------------------------------\n"
 };
-static char gni_version[] = "nifti library version 1.43 (7 July, 2010)";
+static char gni_version[] = "nifti library version 1.43r (9 Jan, 2013)";
 
 /*! global nifti options structure - init with defaults */
 static nifti_global_options g_opts = { 
@@ -457,7 +459,7 @@ void nifti_disp_lib_hist( void )
 {
    int c, len = sizeof(gni_history)/sizeof(char *);
    for( c = 0; c < len; c++ )
-       fputs(gni_history[c], stdout);
+       Rprintf(gni_history[c]);
 }
 
 /*----------------------------------------------------------------------*/
@@ -3518,9 +3520,9 @@ int disp_nifti_1_header( const char * info, const nifti_1_header * hp )
 {
    int c;
 
-   fputs( "-------------------------------------------------------\n", stdout );
-   if ( info )  fputs( info, stdout );
-   if ( !hp  ){ fputs(" ** no nifti_1_header to display!\n",stdout); return 1; }
+   Rprintf( "-------------------------------------------------------\n");
+   if ( info )  Rprintf( info );
+   if ( !hp  ){ Rprintf(" ** no nifti_1_header to display!\n"); return 1; }
 
    Rprintf(" nifti_1_header :\n"
            "    sizeof_hdr     = %d\n"
