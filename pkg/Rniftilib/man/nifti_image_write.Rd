@@ -2,7 +2,7 @@
 \alias{nifti.image.write}
 \title{Write data to NIfTI (Analyze) files}
 \description{
-  This function writes volume data to a NIfTI file.
+  This function writes volume data to a NIfTI file. The filename for the header/image file is determined from the nifti object and can be set by using the \code{\link{nifti.set.filenames}} function.
 }
 \usage{
 nifti.image.write(nim) 
@@ -19,6 +19,7 @@ nifti.image.write(nim)
 }
 
 \seealso{
+  \code{\link{nifti.set.filenames}},
   \code{\link{nifti.image.read}},
   \code{\link{nifti.image.new}}
 }

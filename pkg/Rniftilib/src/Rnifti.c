@@ -808,7 +808,7 @@ SEXP Rnifti_image_copy_info(SEXP nim)
       UNPROTECT(1);
     }
   else
-    error("nifti_image_copy_info: object is not a nifti image");
+    error("nifti_image_copy_info: object is not a nifti object");
   return ret_val;
 }
 
@@ -944,12 +944,17 @@ SEXP Rnifti_image_getpixel(SEXP nim,
   if(IS_LOGICAL(sexp_x) || IS_LOGICAL(sexp_y) || IS_LOGICAL(sexp_z) || IS_LOGICAL(sexp_t) ||
      IS_LOGICAL(sexp_dim5) || IS_LOGICAL(sexp_dim6) || IS_LOGICAL(sexp_dim7))
   {
-	  error("logical indices are not supported yet!");
+	  error("Logical indices are not supported yet!");
 	  return nim;
   }
 
   if(pnim!=NULL)
   {
+    if(pnim->data==NULL)
+    {  
+      error("You try to access voxel data from a nifti object without a data block! Use function nifti.image.alloc.data to allocate a data block.\n");
+      return nim;
+    }
     SEXP coord[7];
     PROTECT(coord[0] = AS_INTEGER(sexp_x));
     PROTECT(coord[1] = AS_INTEGER(sexp_y));
@@ -1378,6 +1383,11 @@ SEXP Rnifti_image_setpixel(
   /*PROTECT(value = AS_NUMERIC(value));*/
   if(pnim!=NULL)
   {
+    if(pnim->data==NULL)
+    {  
+      error("You try to write voxel data into a nifti object without a data block! Use nifti.image.alloc.data to allocate a data block.\n");
+      return nim;
+    }
     SEXP coord[7];
     PROTECT(coord[0] = AS_INTEGER(sexp_x));
     PROTECT(coord[1] = AS_INTEGER(sexp_y));

@@ -2,13 +2,13 @@
 \alias{nifti.image.new}
 \title{Create new NIfTI image}
 \description{
-  Basic initialization of a nifti.image structure (to a 1x1x1 image)
+  Create a new nifti object with basic initialization of a nifti structure (1x1x1 volume).
 }
 \usage{
 nifti.image.new() 
 }
 \details{
-Creates an image of size 1x1x1. 
+Creates a new volume image (nifti object) of size 1x1x1. 
 }
 \value{
 A \code{\link{nifti}} object
@@ -22,6 +22,8 @@ A \code{\link{nifti}} object
 }
 
 \seealso{ 
+  \code{\link{nifti.image.alloc.data}},
+  \code{\link{nifti.set.filenames}},
   \code{\link{nifti.image.write}},
   \code{\link{nifti.image.read}}
 }

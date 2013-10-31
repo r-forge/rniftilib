@@ -1,6 +1,6 @@
 Package: Rniftilib
-Version: 0.0-32
-Date: 2012-02-28
+Version: 0.0-33
+Date: 2013-10-31
 Title: Rniftilib - R Interface to NIFTICLIB (V2.0.0: 2010-07-20)
 Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
