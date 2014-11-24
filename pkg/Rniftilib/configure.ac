@@ -1,4 +1,4 @@
-AC_INIT([Rniftilib],[0.0.33])
+AC_INIT([Rniftilib],[0.0.34])
 AC_CONFIG_HEADER(src/config.h)
 AM_INIT_AUTOMAKE
 

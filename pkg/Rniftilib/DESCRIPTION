@@ -1,10 +1,10 @@
 Package: Rniftilib
-Version: 0.0-33
-Date: 2013-10-31
+Version: 0.0-34
+Date: 2014-11-24
 Title: Rniftilib - R Interface to NIFTICLIB (V2.0.0: 2010-07-20)
 Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
-Depends: R (>= 1.8.0)
+Depends: R (>= 2.15.1)
 Suggests:
 Description: R interface to nifticlib (nifticlib-2.0.0) (read/write ANALYZE(TM)7.5/NIfTI-1 volume images)
 License: GPL (>=2)
