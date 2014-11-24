@@ -1,5 +1,5 @@
 AC_INIT([Rniftilib],[0.0.34])
-AC_CONFIG_HEADER(src/config.h)
+AC_CONFIG_HEADER(tools/config.h)
 AM_INIT_AUTOMAKE
 
 # Checks for programs.
