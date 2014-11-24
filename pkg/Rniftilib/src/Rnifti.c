@@ -36,7 +36,7 @@ char *Rnifti_attributes[] =
     "descrip", 			/* 5 */
     "fname",   			/* 6 */
     "iname",   			/* 7 */
-    "slice.duration", 	/* 8 */
+    "slice.duration", 		/* 8 */
     "qform.code", 		/* 9 */
     "sform.code", 		/* 10 */
     "quatern.b", 		/* 11 */
@@ -45,21 +45,21 @@ char *Rnifti_attributes[] =
     "qoffset.x", 		/* 14 */
     "qoffset.y", 		/* 15 */
     "qoffset.z", 		/* 16 */
-    "qfac",			    /* 17 */
+    "qfac",			/* 17 */
     "pixdim",			/* 18 */
     "nifti.type",		/* 19 */
-    "sizeof.hdr",	    /* 20 */
-    "datatype",         /* 21 */
-    "scl.slope",        /* 22 nifti1: Data scaling: slope.  analyze 7.5: float funused1; */
-    "scl.inter",        /* 23 nifti1: Data scaling: offset. analyze 7.5: float funused2; */
+    "sizeof.hdr",	    	/* 20 */
+    "datatype",         	/* 21 */
+    "scl.slope",        	/* 22 nifti1: Data scaling: slope.  analyze 7.5: float funused1; */
+    "scl.inter",        	/* 23 nifti1: Data scaling: offset. analyze 7.5: float funused2; */
     "qto_xyz", 			/* 24 */
     "qto_ijk", 			/* 25 */
     "sto_xyz", 			/* 26 */
     "sto_ijk", 			/* 27 */
-    "dim",              /* 28 */
-    "nbyper",           /* 29 */
-    "xyz_units",	    /* 30 */
-    "time_units",       /* 31 */
+    "dim",              	/* 28 */
+    "nbyper",           	/* 29 */
+    "xyz_units",	    	/* 30 */
+    "time_units",       	/* 31 */
     NULL
   };
 
@@ -198,9 +198,9 @@ SEXP Rnifti_image_free(SEXP nim)
   nifti_image *pnim=SEXP2NIFTI(nim);
 
   if(pnim!=NULL)
-    {
-      /*Rprintf("Delete nifti %p\n",pnim);*/
+    {     
       nifti_image_free(pnim);
+      pnim=NULL;
       R_ClearExternalPtr(nim);
     }
   else
