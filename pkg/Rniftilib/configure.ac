@@ -22,20 +22,7 @@ dnl * get infos about the installed pkg-config   *
 dnl **********************************************
 AC_PATH_PROG(PKG_CONFIG,pkg-config)
 
-dnl if test "$PKG_CONFIG"; then
-dnl  echo "---------- detected configuration of pkg-config -------------"
-dnl  echo "pkg-config dir:" $PKG_CONFIG
-dnl else
-dnl AC_MSG_ERROR("Can not find pkg-config installation.")
-dnl fi
-
-dnl pkg_modules="gtk+-2.0"
-dnl PKG_CHECK_MODULES(PACKAGE, $pkg_modules)
-
 CHECK_ZLIB()
-dnl PACKAGE_CFLAGS=-DHAVE_ZLIB
-dnl PACKAGE_LIBS=/gtk/bin/zlib1.dll
-dnl INCLUDE=-I/gtk/include
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
 AC_SUBST(LIBS)
