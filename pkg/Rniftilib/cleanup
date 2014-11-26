@@ -1,0 +1,4 @@
+#!/bin/sh
+rm -f tools/config.h
+rm -f src/Makevars
+rm -f src/*.o
