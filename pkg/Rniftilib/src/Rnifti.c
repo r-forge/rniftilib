@@ -8,7 +8,8 @@
 extern char *gni_version;
 
 SEXP NIFTI_type_tag;
-#define SEXP2NIFTI(nim) ((TYPEOF(nim) != EXTPTRSXP || R_ExternalPtrTag(nim) != NIFTI_type_tag)?NULL:(nifti_image *)R_ExternalPtrAddr(nim))
+#define SEXP2NIFTI(nim) ((TYPEOF(nim) != EXTPTRSXP || R_ExternalPtrTag(nim) != NIFTI_type_tag)?\
+NULL:(nifti_image *)R_ExternalPtrAddr(nim))
 
 SEXP Rnifti_image_setdatatype(SEXP nim, SEXP value);
 
