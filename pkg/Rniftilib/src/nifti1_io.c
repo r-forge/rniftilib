@@ -2,6 +2,16 @@
 
 #include "nifti1_io.h"   /* typedefs, prototypes, macros, etc. */
 #include <R.h>
+
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#define _(String) dgettext ("Rniftilib", String)
+/* replace pkg as appropriate */
+#else
+#define _(String) (String)
+#endif
+
+
 /*****===================================================================*****/
 /*****     Sample functions to deal with NIFTI-1 and ANALYZE files       *****/
 /*****...................................................................*****/
@@ -2264,7 +2274,7 @@ void nifti_swap_Nbytes( size_t n , int size , void *ar )  /* subsuming case */
      case 8:  nifti_swap_8bytes ( n , ar ) ; break ;
      case 16: nifti_swap_16bytes( n , ar ) ; break ;
      default:    /* nifti_swap_bytes  ( n , size, ar ) ; */
-        REprintf("** nifti_swap_Nbytes: cannot swap in %d byte blocks\n", size);
+        REprintf(_("** nifti_swap_Nbytes: cannot swap in %d byte blocks\n"), size);
         break ;
    }
    return ;
