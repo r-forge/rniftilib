@@ -1,12 +1,12 @@
 Package: Rniftilib
 Version: 0.0-34
 Date: 2014-11-24
-Title: Rniftilib - R Interface to NIFTICLIB (V2.0.0: 2010-07-20)
+Title: R Interface to nifticlib
 Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 2.15.1)
 Suggests:
-Description: R interface to nifticlib (nifticlib-2.0.0) (read/write ANALYZE(TM)7.5/NIfTI-1 volume images)
+Description: This package implements an R interface to nifticlib (currently to the version 2.0.0). The package provides functions to read/write images in ANALYZE(TM)7.5 (.img / .hdr) and NIfTI-1 (.nii) data format.
 License: GPL (>=2)
 URL: http://rniftilib.r-forge.r-project.org/
 
