@@ -1,7 +1,7 @@
 Package: Rniftilib
 Version: 0.0-34
 Date: 2015-01-05
-Title: R interface to nifticlib to read and write images in NIfTI and ANALYZE format
+Title: R interface to nifticlib for reading and writing images in NIfTI and ANALYZE format
 Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 2.15.1)
