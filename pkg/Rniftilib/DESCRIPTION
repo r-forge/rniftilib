@@ -1,8 +1,15 @@
 Package: Rniftilib
 Version: 0.0-35
 Date: 2015-01-06
-Title: R Interface to nifticlib for Reading and Writing Images in NIfTI and ANALYZE Format
-Author: Oliver Granert <o.granert <at> neurologie.uni-kiel.de>
+Title: R Interface to nifticlib for Reading and Writing Images in NIfTI-1 and ANALYZE Format
+Author: Oliver Granert [aut, cre],
+  nifticlib-2.0.0 Authors (for the included nifticlib sources) [ctb],
+  Brandon Whitcher [ctb]
+Authors@R: as.person(c(
+    "Oliver Granert [aut, cre]",
+    "nifticlib Authors (for the included nifticlib-2.0.0 sources) [ctb]",
+    "Brandon Whitcher [ctb]"
+    ))
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 2.15.1)
 Suggests:
@@ -10,8 +17,9 @@ Description: Provides functions to read/write images in ANALYZE(TM)7.5 (.img/.hd
   The supported image formats are very common for functional brain MRI data analysis, but are also used for 
   other tormographic or volumetric measurement data such as medical images of other body parts.
   The functions are implemented using the C-based nifticlib, a reference implementation for the NIfTI data format.
-  Currently, this package includes a slightly modified copy of the nifticlib (http://sourceforge.net/projects/niftilib/) 
-  based on version nifticlib-2.0.0. The small modifications were required to comply with the R Extensions rules.
+  Currently, this package embeds some slightly modified parts of the public domain library nifticlib-2.0.0
+  (http://sourceforge.net/projects/niftilib/). 
+  The small modifications to the included nifticlib sources were required to comply with the R extensions rules.
 License: GPL (>=2)
 URL: http://rniftilib.r-forge.r-project.org/
 
