@@ -20,6 +20,6 @@ Description: Provides functions to read/write images in ANALYZE(TM)7.5 (.img/.hd
   Currently, this package embeds some slightly modified parts of the public domain library nifticlib-2.0.0
   (http://sourceforge.net/projects/niftilib/). 
   The small modifications to the included nifticlib sources were required to comply with the R extensions rules.
-License: GPL (>=2)
+License: GPL (>=2) + file LICENCE
 URL: http://rniftilib.r-forge.r-project.org/
 
