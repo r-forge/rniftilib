@@ -5,11 +5,9 @@ Title: R Interface to nifticlib for Reading and Writing Images in NIfTI-1 and AN
 Author: Oliver Granert [aut, cre],
   nifticlib-2.0.0 Authors (for the included nifticlib sources) [ctb],
   Brandon Whitcher [ctb]
-Authors@R: as.person(c(
-    "Oliver Granert [aut, cre]",
-    "nifticlib Authors (for the included nifticlib-2.0.0 sources) [ctb]",
-    "Brandon Whitcher [ctb]"
-    ))
+Authors@R: c(person("Oliver Granert",role=c("aut", "cre"),email="o.granert@neurologie.uni-kiel.de"),
+    person("nifticlib Authors (for the included nifticlib-2.0.0 sources)",role="ctb"),
+    person("Brandon Whitcher",role="ctb"))
 Maintainer: Oliver Granert <o.granert@neurologie.uni-kiel.de>
 Depends: R (>= 2.15.1)
 Suggests:
@@ -20,6 +18,6 @@ Description: Provides functions to read/write images in ANALYZE(TM)7.5 (.img/.hd
   Currently, this package embeds some slightly modified parts of the public domain library nifticlib-2.0.0
   (http://sourceforge.net/projects/niftilib/). 
   The small modifications to the included nifticlib sources were required to comply with the R extensions rules.
-License: GPL (>=2) + file LICENCE
+License: GPL (>=2) | file LICENSE
 URL: http://rniftilib.r-forge.r-project.org/
 
